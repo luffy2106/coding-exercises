@@ -29,7 +29,7 @@ Make a decorator that standardizes the mobile numbers and apply it to the functi
 
 #A decorator is just a callable that takes a function as an argument and returns a replacement function. 
 def wrapper(f): # f is sort_phone function
-    def fun(l):
+    def fun(l):  #fun will take the argumnent of function f when it was called in *
         # complete the function
         # l = "".join(l)
         new_l = []
@@ -55,4 +55,4 @@ def sort_phone(l):
 
 if __name__ == '__main__':
     l = [input() for _ in range(int(input()))]
-    sort_phone(l) 
+    sort_phone(l)  # *

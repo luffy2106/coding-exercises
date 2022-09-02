@@ -22,7 +22,6 @@ http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/
 
 """
 explain :
-* point to a list
 - when name_format call, it go to person_lister
 - the person_lister go to inner function
 - in the inner function, we sort then store to the new list
@@ -31,15 +30,14 @@ explain :
 
  #A decorator is just a callable that takes a function as an argument and returns a replacement function. 
 def person_lister(f): # f is name_format function
-    def inner(people):
+    def inner(people): #inner will take the argumnent of function f when it was called in *
         for i in range(len(people)):
             people[i].append(i)
         people.sort(key=lambda people : int(people[2]))
         ret = [f(person) for person in people]
         return ret
         # complete the function
-    return inner
-
+    return inner 
 
 
 @person_lister
@@ -48,4 +46,4 @@ def name_format(person):
 
 if __name__ == '__main__':
     people = [input().split() for i in range(int(input()))]
-    print(*name_format(people), sep='\n')
+    print(*name_format(people), sep='\n') #  *
