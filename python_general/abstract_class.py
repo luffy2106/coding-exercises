@@ -18,7 +18,7 @@ https://www.hackerrank.com/challenges/30-abstract-classes/tutorial
 
 2. 
 - A class which contains one or more abstract methods is called an abstract class.
-- An abstract method is a method that has a declaration but does not have an implementation. Their implementation will be declared by sub class or abstract class 
+- An abstract method is a method that has a declaration but does not have an implementation. Their implementation will be declared by sub class. 
 """
 
 # Python comes with a module that provides the base for defining Abstract Base classes(ABC) and that module name is ABC
