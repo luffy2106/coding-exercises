@@ -126,3 +126,6 @@ obj_usa = USA()
 
 func(obj_ind)
 func(obj_usa)
+
+
+

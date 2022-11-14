@@ -108,3 +108,66 @@ The capitalize() method returns a string where the first character is upper case
 Refrence : https://www.w3schools.com/python/ref_string_capitalize.asp
 
 
+#### Example of mutable and immutable data in python
+
+In mutable data types, we can modify the already existing values of the data types (such as lists, dictionaries, etc.). Or, we may add new values or remove the existing values from our data types. Basically, we may perform any operation with our data without having to create a new copy of our data type. Hence, the value assigned to any variable can be changed. In immutable data, on the contrary, we can not do that.
+
+Example of mutable data:
+- List
+- Dictionary
+- Set
+
+Example of immutable data:
+- Numbers
+- Strings
+- Tuples
+
+Compare :
+- Immutable objects are faster to access when compared to mutable objects
+- Immutable objects are best suitable when we are sure that we don't need to change them at any point in time.
+- Changing immutable objects is an expensive operation since it involves creating a new copy for any changes made.
+
+Why tuple is faster than list ?
+- Tuple is stored in a single block of memory while list is stored in two blocks of memory (One is fixed sized and the other is variable sized for storing data).
+- List is stored in two blocks of memory (One is fixed sized and the other is variable sized for storing data)
+
+Reference:
+https://www.educative.io/answers/tuples-vs-list-in-python
+
+# What is the difference between generator and iterator ?(need to check in detailed)
+
+An iterator in Python serves as a holder for objects so that they can be iterated over; a generator facilitates the creation of a custom iterator.
+
+- Genrator is alway an Iterator but Iterator is not always as a Generator.
+- Generator implemented using a function. Iterator implemented using a class.
+- Generator using the yield keyword. Iterator does not us the yield keyword.
+
+Reference: 
+https://www.educative.io/answers/generator-vs-iterator-in-python
+
+# What is list comprehension ?
+
+List comprehension offers a shorter syntax when you want to create a new list based on the values of an existing list.Without list comprehension you will have to write a for statement with a conditional test inside. To be more specific, to create another list from an existing list, instead of having a loop with a condition in many lines, you can simply do it like this :
+
+fruits = ["apple", "banana", "cherry", "kiwi", "mango"]
+newlist = [x for x in fruits if "a" in x]
+
+Reference:
+https://www.w3schools.com/python/python_lists_comprehension.asps
+
+# What is the difference between data frame and time series ?(Need to revise in detailed)
+
+Series is a type of list in pandas which can take integer values, string values, double values and more. But in Pandas Series we return an object in the form of list, having index starting from 0 to n, Where n is the length of values in series. Later in this article, we will discuss dataframes in pandas, but we first need to understand the main difference between Series and Dataframe. Series can only contain single list with index, whereas dataframe can be made of more than one series or we can say that a dataframe is a collection of series that can be used to analyse the data. 
+
+Reference:
+https://www.geeksforgeeks.org/creating-a-dataframe-from-pandas-series
+
+
+
+
+
+
+
+
+
+
