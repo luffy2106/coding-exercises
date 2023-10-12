@@ -1,8 +1,13 @@
 # This repo including coding-exercises on python in Leetcode, hackerranks and questions in python.
 
 Good reference
+- Tips in python
 ```
 https://github.com/chiphuyen/python-is-cool/blob/master/README.md
+```
+- Good practice
+```
+https://aman.ai/primers/python/
 ```
 
 #### 1. What is the four basic concepts of OOP:
