@@ -1,5 +1,10 @@
 # This repo including coding-exercises on python in Leetcode, hackerranks and questions in python.
 
+Good reference
+```
+https://github.com/chiphuyen/python-is-cool/blob/master/README.md
+```
+
 #### 1. What is the four basic concepts of OOP:
 - encapsulation : This puts restrictions on accessing variables and methods directly and can prevent the accidental modification of data
 - abstraction : abstract class contain abstract method(which has declaration but no implementation), Their implementation will be declared by sub class. 
@@ -116,10 +121,97 @@ fib_m(50)
 ==> Time taken in fib: 0.0000412
 ==> Time taken in fib_m: 0.0000281
 ```
+#### 4. Some built-in function?
+In Python, magic methods are prefixed and suffixed with the double underscore `__`, also known as dunder. The most wellknown magic method is probably `__init__`.
 
-reference:
+```python
+class Node:
+    """ A struct to denote the node of a binary tree.
+    It contains a value and pointers to left and right children.
+    """
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
 ```
-https://github.com/chiphuyen/python-is-cool/blob/master/README.md
+
+When we try to print out a Node object, however, it's not very interpretable.
+
+```python
+root = Node(5)
+print(root) # <__main__.Node object at 0x1069c4518>
 ```
 
+Ideally, when user prints out a node, we want to print out the node's value and the values of its children if it has children. To do so, we use the magic method `__repr__`, which must return a printable object, like string.
 
+```python
+class Node:
+    """ A struct to denote the node of a binary tree.
+    It contains a value and pointers to left and right children.
+    """
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+    def __repr__(self):
+        strings = [f'value: {self.value}']
+        strings.append(f'left: {self.left.value}' if self.left else 'left: None')
+        strings.append(f'right: {self.right.value}' if self.right else 'right: None')
+        return ', '.join(strings)
+
+left = Node(4)
+root = Node(5, left)
+print(root) # value: 5, left: 4, right: None
+```
+
+We'd also like to compare two nodes by comparing their values. To do so, we overload the operator `==` with `__eq__`, `<` with `__lt__`, and `>=` with `__ge__`.
+
+```python
+class Node:
+    """ A struct to denote the node of a binary tree.
+    It contains a value and pointers to left and right children.
+    """
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+    def __lt__(self, other):
+        return self.value < other.value
+
+    def __ge__(self, other):
+        return self.value >= other.value
+
+
+left = Node(4)
+root = Node(5, left)
+print(left == root) # False
+print(left < root) # True
+print(left >= root) # False
+```
+
+For a comprehensive list of supported magic methods [here](https://www.tutorialsteacher.com/python/magic-methods-in-python) or see the official Python documentation [here](https://docs.python.org/3/reference/datamodel.html#special-method-names) (slightly harder to read).
+
+Some of the methods that I highly recommend:
+
+- `__len__`: to overload the `len()` function.
+- `__str__`: to overload the `str()` function.
+- `__iter__`: if you want to your objects to be iterators. This also allows you to call `next()` on your object.
+
+For classes like Node where we know for sure all the attributes they can support (in the case of Node, they are `value`, `left`, and `right`), we might want to use `__slots__` to denote those values for both performance boost and memory saving. For a comprehensive understanding of pros and cons of `__slots__`, see this [absolutely amazing answer by Aaron Hall on StackOverflow](https://stackoverflow.com/a/28059785/5029595).
+
+```python
+class Node:
+    """ A struct to denote the node of a binary tree.
+    It contains a value and pointers to left and right children.
+    """
+    __slots__ = ('value', 'left', 'right')
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
+```
