@@ -28,11 +28,111 @@ soil_2       seed 79      [a2,a2+c2]    [b2,b2+c2]       [52,100]         [50,98
 
 
 
+def load_input(file):
+    with open(file, 'r') as file:
+        # Read all lines and store them in a list
+        content  = file.read()
+    sections = content.split('\n\n')
+    return sections
+
+def build_source_dest_map(section):
+    source_dest_list = []
+    line_section = section.split('\n')
+    lines_number = line_section[1:]
+    for line in lines_number:
+        line_number = line.split(" ")
+        number = [int(x) for x in line_number]
+        dest = number[0]
+        source = number[1]
+        length = number[2]
+        source_dest_list.append([source, source + length, dest])
+    return source_dest_list
+
+
+def append_list_to_set_list(list_range_mapping, range_mapping_case):
+    if range_mapping_case not in list_range_mapping:
+        list_range_mapping.append(range_mapping_case)
+    
+
+
+
+def get_range_mapping(list_input_range, list_dict_source_to_dest):
+    """There will be 5 cases
+
+    dict_source_to_dest : [source, source + length, dest]
+    input_range :  [x, x_range]
+    Args:
+        input_range (_type_): _description_
+        dict_source_to_dest (_type_): _description_
+    
+    """
+    list_range_mapping  = []
+    
+    for input_range in list_input_range:
+        for dict_source_to_dest in list_dict_source_to_dest:
+            # case 1 : x + x_range < source
+            if input_range[0] + input_range[1] < dict_source_to_dest[0]:
+                range_mapping_case_1 = [input_range[0], input_range[0]+ input_range[1]]
+                append_list_to_set_list(list_range_mapping, range_mapping_case_1) 
+            # case 2 : x  < source <= x + x_range <= source + length
+            if input_range[0]  < dict_source_to_dest[0] <= input_range[0] + input_range[1] <= dict_source_to_dest[1]:
+                range_mapping_case_2_1 = [input_range[0], dict_source_to_dest[0]-1]      #[x, source - 1]
+                range_mapping_case_2_2 = [dict_source_to_dest[2], input_range[0] + input_range[1] + dict_source_to_dest[2] - dict_source_to_dest[0]]    #[source + dest - source, x + x_range + dest - source]
+                append_list_to_set_list(list_range_mapping, range_mapping_case_2_1) 
+                append_list_to_set_list(list_range_mapping, range_mapping_case_2_2) 
+            # case 3 : x > source and x + x_range < source + length
+            if input_range[0] > dict_source_to_dest[0] and input_range[0] + input_range[1] < dict_source_to_dest[1]:
+                range_mapping_case_3 = [input_range[0] + dict_source_to_dest[2] - dict_source_to_dest[0], input_range[0] + input_range[1] + dict_source_to_dest[2] - dict_source_to_dest[0]]    # [x + dest-source, x + x_range + dest - source]
+                append_list_to_set_list(list_range_mapping, range_mapping_case_3)
+            # case 4 : source < x < source + length < x + x_range
+            if dict_source_to_dest[0] < input_range[0] < dict_source_to_dest[1] < input_range[0] + input_range[1]:
+                range_mapping_case_4_1 = [input_range[0] + dict_source_to_dest[2]-dict_source_to_dest[0], dict_source_to_dest[1]+dict_source_to_dest[2] - dict_source_to_dest[0] ]  # [x+dest-source, source+length+dest-source]
+                range_mapping_case_4_2 = [dict_source_to_dest[1]+1, input_range[0]+input_range[1]]       # [source + length + 1, x + x_range]
+                append_list_to_set_list(list_range_mapping, range_mapping_case_4_1)
+                append_list_to_set_list(list_range_mapping, range_mapping_case_4_2)
+            # case 5 : source + length < x
+            if dict_source_to_dest[1] < input_range[0]:
+                range_mapping_case_5 = [input_range[0], input_range[0]+ input_range[1]]
+                append_list_to_set_list(list_range_mapping, range_mapping_case_5)
+    return list_range_mapping
+
 
 
 def main():
-
-    return
-
+    sections = load_input("input.txt")
+    section_seeds = sections[0]
+    seeds = section_seeds.split(":")[1].strip()
+    seeds_number = seeds.split(" ")
+    seeds_number = [int(x) for x in seeds_number]
+    section_seed_to_soil = sections[1]
+    section_soil_to_fertilizer = sections[2]
+    section_fertilizer_to_water = sections[3]
+    section_water_to_light = sections[4]
+    section_light_to_temperature = sections[5]
+    section_temperature_to_humidity = sections[6]
+    section_humidity_to_location = sections[7]
+    dict_seed_to_soil = build_source_dest_map(section_seed_to_soil)
+    dict_soil_to_fertilizer = build_source_dest_map(section_soil_to_fertilizer)
+    dict_fertilizer_to_water = build_source_dest_map(section_fertilizer_to_water)
+    dict_water_to_light = build_source_dest_map(section_water_to_light)
+    dict_light_to_temperature = build_source_dest_map(section_light_to_temperature)
+    dict_temperature_to_humidity = build_source_dest_map(section_temperature_to_humidity)
+    dict_humidity_to_location = build_source_dest_map(section_humidity_to_location)
+    list_seed_range = [[seeds_number[i], seeds_number[i+1] - 1] for i in range(0, len(seeds_number)-1, 2)]
+    list_min_location = []
+    for seed_range in list_seed_range:
+        seed_range_list = [seed_range]
+        soil_range_list = get_range_mapping(seed_range_list, dict_seed_to_soil)
+        fertilizer_range_list = get_range_mapping(soil_range_list, dict_soil_to_fertilizer)
+        water_range_list = get_range_mapping(fertilizer_range_list, dict_fertilizer_to_water)
+        light_range_list = get_range_mapping(water_range_list, dict_water_to_light)
+        temperature_range_list = get_range_mapping(light_range_list, dict_light_to_temperature)
+        humidity_range_list = get_range_mapping(temperature_range_list, dict_temperature_to_humidity)
+        location_range_list = get_range_mapping(humidity_range_list, dict_humidity_to_location)
+        min_location = min([x[0] for x in location_range_list])
+        list_min_location.append(min_location)
+    result = min(list_min_location)
+    print(result)
+        
 if __name__ == "__main__":
     main()
