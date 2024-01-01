@@ -220,3 +220,29 @@ class Node:
         self.left = left
         self.right = right
 ```
+
+#### 5. What is generator, when do you use it. What is the difference between iterator and generator ?
+
+A generator is a special type of iterator in Python. It is implemented using a function that uses the yield keyword instead of return. When a generator function is called, it returns an object (generator) that can be iterated over to retrieve values one at a time.
+
+Generators are used when we want to generate a sequence of values dynamically, on-the-fly, without storing them all in memory at once. They are memory-efficient and provide a way to work with large or infinite sequences of data.
+
+The primary difference between an iterator and a generator is that an iterator is an object that implements the iterator protocol, whereas a generator is a specific type of iterator that is created using a generator function.
+
+Here are some key differences:
+
+Iterator:
+- An iterator is an object that implements the __iter__() and __next__() methods.
+- Iterators are used to iterate over a collection or sequence of items, providing access to each item one at a time.
+- The __iter__() method returns the iterator object itself.
+- Iterators can be created for any custom class by implementing the iterator protocol.
+Generator:
+- A generator is a special type of iterator that is created using a generator function.
+- Generator functions use the yield keyword to yield values one at a time, suspending the execution of the function until the next value is requested.
+- Each time a value is yielded, the state of the generator function is saved, allowing it to resume from where it left off.
+- Generators automatically implement the iterator protocol, so they can be used in loops and other constructs that expect an iterable.
+
+Iterator differs from generators, which do not store the entire sequence in memory. Instead, generators yield values dynamically as they are requested. Each time the yield keyword is encountered, the generator suspends its execution and waits for the next iteration. This allows generators to be more memory-efficient, especially when dealing with large or infinite sequences.
+
+Ask chatGPT for example.
+
