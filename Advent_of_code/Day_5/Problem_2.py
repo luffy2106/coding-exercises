@@ -60,46 +60,87 @@ def get_range_mapping(list_input_range, list_dict_source_to_dest):
     """There will be 5 cases
 
     dict_source_to_dest : [source, source + length, dest]
-    input_range :  [x, x_range]
+    input_range :  [x, x_range] => [x_min, x_max]
     Args:
         input_range (_type_): _description_
         dict_source_to_dest (_type_): _description_
     
     """
-    list_range_mapping  = []
-    
+    total_list_range_mapping_input = []
     for input_range in list_input_range:
+        # list_range_mapping_input  = [input_range]
+        list_range_mapping_input = []
         for dict_source_to_dest in list_dict_source_to_dest:
-            # case 1 : x + x_range < source
-            if input_range[0] + input_range[1] < dict_source_to_dest[0]:
-                range_mapping_case_1 = [input_range[0], input_range[0]+ input_range[1]]
-                append_list_to_set_list(list_range_mapping, range_mapping_case_1) 
-            # case 2 : x  < source <= x + x_range <= source + length
-            if input_range[0]  < dict_source_to_dest[0] <= input_range[0] + input_range[1] <= dict_source_to_dest[1]:
+            # case 1 : x_max < source
+            if input_range[1] < dict_source_to_dest[0]:
+                range_mapping_case_1 = [input_range[0], input_range[1]]
+                # list_range_mapping_input = []
+                if input_range in list_range_mapping_input:
+                    list_range_mapping_input.remove(input_range)
+                append_list_to_set_list(list_range_mapping_input, range_mapping_case_1) 
+            # case 2 : x  < source <= x_max <= source + length
+            if input_range[0]  < dict_source_to_dest[0] <= input_range[1] <= dict_source_to_dest[1]:
                 range_mapping_case_2_1 = [input_range[0], dict_source_to_dest[0]-1]      #[x, source - 1]
-                range_mapping_case_2_2 = [dict_source_to_dest[2], input_range[0] + input_range[1] + dict_source_to_dest[2] - dict_source_to_dest[0]]    #[source + dest - source, x + x_range + dest - source]
-                append_list_to_set_list(list_range_mapping, range_mapping_case_2_1) 
-                append_list_to_set_list(list_range_mapping, range_mapping_case_2_2) 
+                range_mapping_case_2_2 = [dict_source_to_dest[2], input_range[1] + dict_source_to_dest[2] - dict_source_to_dest[0]]    #[source + dest - source, x + x_range + dest - source]
+                # list_range_mapping_input = []
+                if input_range in list_range_mapping_input:
+                    list_range_mapping_input.remove(input_range)
+                append_list_to_set_list(list_range_mapping_input, range_mapping_case_2_1) 
+                append_list_to_set_list(list_range_mapping_input, range_mapping_case_2_2) 
             # case 3 : x > source and x + x_range < source + length
-            if input_range[0] > dict_source_to_dest[0] and input_range[0] + input_range[1] < dict_source_to_dest[1]:
-                range_mapping_case_3 = [input_range[0] + dict_source_to_dest[2] - dict_source_to_dest[0], input_range[0] + input_range[1] + dict_source_to_dest[2] - dict_source_to_dest[0]]    # [x + dest-source, x + x_range + dest - source]
-                append_list_to_set_list(list_range_mapping, range_mapping_case_3)
+            if input_range[0] > dict_source_to_dest[0] and input_range[1] < dict_source_to_dest[1]:
+                range_mapping_case_3 = [input_range[0] + dict_source_to_dest[2] - dict_source_to_dest[0], input_range[1] + dict_source_to_dest[2] - dict_source_to_dest[0]]    # [x + dest-source, x + x_range + dest - source]
+                # list_range_mapping_input = []
+                if input_range in list_range_mapping_input:
+                    list_range_mapping_input.remove(input_range)
+                append_list_to_set_list(list_range_mapping_input, range_mapping_case_3)
             # case 4 : source < x < source + length < x + x_range
-            if dict_source_to_dest[0] < input_range[0] < dict_source_to_dest[1] < input_range[0] + input_range[1]:
+            if dict_source_to_dest[0] < input_range[0] < dict_source_to_dest[1] < input_range[1]:
                 range_mapping_case_4_1 = [input_range[0] + dict_source_to_dest[2]-dict_source_to_dest[0], dict_source_to_dest[1]+dict_source_to_dest[2] - dict_source_to_dest[0] ]  # [x+dest-source, source+length+dest-source]
-                range_mapping_case_4_2 = [dict_source_to_dest[1]+1, input_range[0]+input_range[1]]       # [source + length + 1, x + x_range]
-                append_list_to_set_list(list_range_mapping, range_mapping_case_4_1)
-                append_list_to_set_list(list_range_mapping, range_mapping_case_4_2)
+                range_mapping_case_4_2 = [dict_source_to_dest[1]+1, input_range[1]]       # [source + length + 1, x_max]
+                # list_range_mapping_input = []
+                if input_range in list_range_mapping_input:
+                    list_range_mapping_input.remove(input_range)
+                append_list_to_set_list(list_range_mapping_input, range_mapping_case_4_1)
+                append_list_to_set_list(list_range_mapping_input, range_mapping_case_4_2)
             # case 5 : source + length < x
             if dict_source_to_dest[1] < input_range[0]:
-                range_mapping_case_5 = [input_range[0], input_range[0]+ input_range[1]]
-                append_list_to_set_list(list_range_mapping, range_mapping_case_5)
-    return list_range_mapping
+                range_mapping_case_5 = [input_range[0], input_range[1]]
+                # list_range_mapping_input = []
+                if input_range in list_range_mapping_input:
+                    list_range_mapping_input.remove(input_range)
+                append_list_to_set_list(list_range_mapping_input, range_mapping_case_5)
+        total_list_range_mapping_input.extend(list_range_mapping_input)
+    optimize_list = optimize_range_list(total_list_range_mapping_input)
+    return optimize_list
 
 
+def optimize_range_list(range_list):
+    """
+    Need to convert [[79, 92], [81, 94]] to [[79, 94]]
+    """
+    sorted_ranges = sorted(range_list, key=lambda x: x[0])
+
+    # Initialize the optimized list with the first range
+    optimized_list = [sorted_ranges[0]]
+
+    # Iterate over each range in the sorted list
+    for current_range in sorted_ranges[1:]:
+        # Get the last range from the optimized list
+        last_range = optimized_list[-1]
+
+        # Check if the current range overlaps or can be merged with the last range
+        if current_range[0] <= last_range[1]:
+            # Update the ending value of the last range
+            last_range[1] = max(last_range[1], current_range[1])
+        else:
+            # Add the current range to the optimized list
+            optimized_list.append(current_range)
+
+    return optimized_list
 
 def main():
-    sections = load_input("input.txt")
+    sections = load_input("input2.txt")
     section_seeds = sections[0]
     seeds = section_seeds.split(":")[1].strip()
     seeds_number = seeds.split(" ")
@@ -121,12 +162,13 @@ def main():
     list_seed_range = [[seeds_number[i], seeds_number[i+1] - 1] for i in range(0, len(seeds_number)-1, 2)]
     list_min_location = []
     for seed_range in list_seed_range:
-        seed_range_list = [seed_range]
-        soil_range_list = get_range_mapping(seed_range_list, dict_seed_to_soil)
-        fertilizer_range_list = get_range_mapping(soil_range_list, dict_soil_to_fertilizer)
-        water_range_list = get_range_mapping(fertilizer_range_list, dict_fertilizer_to_water)
-        light_range_list = get_range_mapping(water_range_list, dict_water_to_light)
-        temperature_range_list = get_range_mapping(light_range_list, dict_light_to_temperature)
+        seed_range = [seed_range[0], seed_range[0] + seed_range[1]]
+        seed_range_list = [seed_range]    #[79,92] 82
+        soil_range_list = get_range_mapping(seed_range_list, dict_seed_to_soil)   #[81,94] 84
+        fertilizer_range_list = get_range_mapping(soil_range_list, dict_soil_to_fertilizer) #[81,94] 84
+        water_range_list = get_range_mapping(fertilizer_range_list, dict_fertilizer_to_water) #[81,94] 84
+        light_range_list = get_range_mapping(water_range_list, dict_water_to_light) #[74,87] 77
+        temperature_range_list = get_range_mapping(light_range_list, dict_light_to_temperature) #[[78,81],[78,87]] 45
         humidity_range_list = get_range_mapping(temperature_range_list, dict_temperature_to_humidity)
         location_range_list = get_range_mapping(humidity_range_list, dict_humidity_to_location)
         min_location = min([x[0] for x in location_range_list])
