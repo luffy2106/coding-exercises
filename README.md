@@ -265,3 +265,26 @@ if __name__ == "__main__":
 # code block C - start
 print("Hello, 3")
 # code block C - start
+
+
+#### 7. Is private attributes exist in python ?
+
+In Python, there is no strict concept of private attributes like in some other programming languages such as Java or C++. However, there is a convention that developers use to indicate that an attribute or method should be treated as private.
+
+By convention, if you want to indicate that an attribute or method is intended for internal use and should not be accessed directly from outside the class, you can prefix its name with an underscore (_). This serves as a signal to other developers that the attribute or method is intended to be private.
+```
+class MyClass:
+    def __init__(self):
+        self._private_attribute = 10
+
+    def _private_method(self):
+        print("This is a private method")
+
+my_object = MyClass()
+print(my_object._private_attribute)  # Accessing a "private" attribute (not recommended)
+my_object._private_method()  # Calling a "private" method (not recommended)
+```
+
+#### 8. gabarge collector in python exist ?
+
+Yes, Python does have a garbage collector. The garbage collector in Python is responsible for automatically reclaiming memory that is no longer in use, freeing it up for other purposes. The garbage collector in Python operates transparently in the background, and in most cases, you don't need to explicitly manage memory deallocation
