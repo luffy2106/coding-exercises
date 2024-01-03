@@ -287,4 +287,4 @@ my_object._private_method()  # Calling a "private" method (not recommended)
 
 #### 8. gabarge collector in python exist ?
 
-Yes, Python does have a garbage collector. The garbage collector in Python is responsible for automatically reclaiming memory that is no longer in use, freeing it up for other purposes. The garbage collector in Python operates transparently in the background, and in most cases, you don't need to explicitly manage memory deallocation
+Yes, Python does have a garbage collector. The garbage collector in Python is responsible for automatically reclaiming memory that is no longer in use, freeing it up for other purposes. The garbage collector in Python operates transparently in the background, and in most cases, you don't need to explicitly manage memory deallocation as it dones automatically by Python.
