@@ -246,3 +246,22 @@ Iterator differs from generators, which do not store the entire sequence in memo
 
 Ask chatGPT for example.
 
+
+#### 6. The order of code block in python 
+The order of code alway from top to bottom in python file, even in the main function. In the example below, the code order will be : blockA->blockB->blockC
+
+
+# code block A - start
+print("Hello, 1")
+# code block A - end
+def main():
+    # code block B - start
+    print("Hello, 2")
+    # code block B - start
+
+if __name__ == "__main__":
+    main()
+
+# code block C - start
+print("Hello, 3")
+# code block C - start
