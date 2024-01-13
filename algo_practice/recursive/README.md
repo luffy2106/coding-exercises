@@ -102,3 +102,61 @@ Reference
 https://x.com/Franc0Fernand0/status/1743912610406223896?s=20
 ```
 
+
+### General tricks
+
+### 1. Back tracking
+During the recursive process, we might want to keep the variable update until it converge to the base case. However, sometimes we want the variable come back to the previous state after calling the recursive(especially when you call recursive in the loop function). In this case, we need to use a technique named "back tracking", the main ideas is to store the state of the variable into a temporary variable before calling recursive and call it back after calling recursive. 
+
+In python, when we store the variable in a a temporary variable, we need to consider "shallow copy" problem. For this reason, back tracking has different method for each type of variable. 
+
+1. Immutable objects:
+
+No problem with shallow copy: If the compound object contains only immutable objects (objects that cannot be modified after creation, like integers, strings, or tuples)
+
+Ex :
+```
+def countdown(n):
+    if n == 0:
+        return
+    else:
+        print(n)
+        temp = n  # Store the current value of n
+        n -= 1
+        countdown(n)  # Recursive call
+        n = temp  # Revert n back to its previous value
+
+countdown(5)
+
+Result : 5 4 3 2 1
+```
+
+2. Mutable objects
+
+Problem with shallow copy: If you have a compound object containing mutable objects (objects that can be modified after creation), a shallow copy of that object will create a new object, but it will still reference the same nested mutable objects. Therefore, changes to the nested mutable objects will be reflected in both the original and the shallow copy.
+
+For this reason the solution for backt tracking is a bit different, take a look at the example of Gorgias_Machine_Learning_Engineer interview:
+
+```
+def generate_list_pairs(list_num, current_list_pairs, possible_list_pairs):
+    if len(list_num) == 2:
+        # Break our of recursive
+        current_list_pairs.append(list_num)
+        possible_list_pairs.append(current_list_pairs)
+        return 
+    else:
+        # Do the recursive
+        for i in range(len(list_num)):
+            for j in range(len(list_num)):
+                if j != i:
+                    pairs = [list_num[i], list_num[j]]
+                    list_remain = [list_num[x] for x in range(len(list_num)) if x!=i and x!=j]
+                    temp = copy.deepcopy(current_list_pairs)
+                    temp.append(pairs)
+                    generate_list_pairs(list_remain, temp, possible_list_pairs)
+```
+
+As you can see, I use deepcopy to store the value of current_list_pairs, so after I call recursive function, the current_list_pairs come back to the previous state, but the variable possible_list_pairs doesn't follow the change of the variable current_list_pairs. 
+
+
+
