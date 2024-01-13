@@ -29,6 +29,9 @@ Step 2 :
 - In the remain list, generate all the possible pairs(need to consider index instead of value), 
 we will do this recursively by a function called generate_list_pairs.
 
+
+Take a look at the picture docs/algorithm_illustrate.jpg to illustrate algorithm. 
+
 Pseudo code:
 
 function generate_list_pairs(list_num, current_list_pairs, possible_list_pairs):
@@ -51,9 +54,9 @@ function generate_list_pairs(list_num, current_list_pairs, possible_list_pairs):
 
 
 def generate_list_pairs(list_num, current_list_pairs, possible_list_pairs):
-    if len(list_num) == 2:
+    if len(list_num) == 0:
         # Break our of recursive
-        current_list_pairs.append(list_num)
+        # current_list_pairs.append(list_num)
         possible_list_pairs.append(current_list_pairs)
         return 
     else:
