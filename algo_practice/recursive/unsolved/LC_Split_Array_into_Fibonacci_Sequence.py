@@ -1,5 +1,5 @@
 """
-1. Question
+I. Question
 [Leet code]
 
 https://leetcode.com/problems/split-array-into-fibonacci-sequence/description/
@@ -15,64 +15,123 @@ Note that when splitting the string into pieces, each piece must not have extra 
 
 Return any Fibonacci-like sequence split from num, or return [] if it cannot be done.
 
-2. Analyze solution
+II. Analyze solution
 
 This problem belong to the template "Subproblems"
-2.1 Pseudo code provided by ChatGPT
-function splitIntoFibonacci(num):
-    function backtrack(sequence, index, currentNum, sumOfLastTwo):
-        if index == len(num):
-            return len(sequence) >= 3
 
-        for i in range(index, len(num)):
-            if num[index] == '0' and i > index:
-                break
-
-            newNum = int(num[index:i+1])
-
-            if len(sequence) >= 2 and newNum > sumOfLastTwo:
-                break
-
-            if len(sequence) < 2 or newNum == sumOfLastTwo:
-                sequence.append(newNum)
-                if backtrack(sequence, i+1, newNum, currentNum + newNum):
-                    return sequence
-
-                sequence.pop()
-
-        return []
-
-    return backtrack([], 0, 0, 0)
+Follow general steps.
+1. Define base case
 
 
-# Test cases
-print(splitIntoFibonacci("1101111"))  # Output: [11, 0, 11, 11]
-print(splitIntoFibonacci("112358130"))  # Output: []
-print(splitIntoFibonacci("0123"))  # Output: []
-
-Still don't understand the logic behind
+2. Define recurvie case.
+- last_3 : last emelent of fibo in the current string
+- last_2 : second last element of fibo in the current string
+- last_1 : first last element of fibo list in the current string
+- current_list : Fibo list at the time of recursive
+- count : number of character left in the recursive, start from n to 0 
+find(last_3=None, last_2=None, last_1=None, remain, current_list=[], count):
+    base case :
+        if count is n :
+            list_last_3 = [remain[-1:0], remain[-2:0]....,remain[-n:2]]
+            for each last_3 in list_last_3:
+                remain_except_last_3 = remain -  last_3
+                list_last_2 = [remain_except_last_3[-1:0], remain_except_last_3[-2:0]....,remain_except_last_3[-n:1]] and last_2 <= last_3
+                for each last_2 in list_last_2:
+                    last_1 = last_3 - last_2
+                    remain_except_last_3_last_2 = remain_except_last_3 - last_2
+                    if last_1 in remain_except_last_3_last_2:
+                        current_list = [last_3,last_2,last_1]
+                        count = len(remain) 
+                        find(last_3=None, last_2=None, last_1=None, remain, current_list, count)
+        elif:
+            remain_except_last_3 = remain -  last_3
+            list_last_2 = [remain_except_last_3[-1:0], remain_except_last_3[-2:0]....,remain_except_last_3[-n:1]] and last_2 <= last_3
+            for each last_2 in list_last_2:
+                last_1 = last_3 - last_2
+                remain_except_last_3_last_2 = remain_except_last_3 - last_2
+                if last_1 in remain_except_last_3_last_2:
+                    current_list = [last_3,last_2,last_1]
+                    count = len(remain) 
+                    find(last_3=None, last_2=None, last_1=None, remain, current_list, count)         
+        if count == 0:
+            return current_list
 """
 
-def check_constraint(num: str):
-    validate = True
-    # Check condition 1 and 2
-    if not 1<=len(num)<=200 or not num.isdigit() :
-        validate = False
-    else: 
-        validate = True
-    return validate
-        
 
 
+import copy
 
-def splitIntoFibonacci(num: str):
-    return
+
+def find_fibonacci(last_3=None, last_2=None, last_1=None, remain='', current_list=[], count=any, n=any):
+    if count == 0:
+        return current_list
+    if count == n :
+        list_last_3 = [remain[-i:] for i in range(1,len(remain)-1)]
+        for last_3 in list_last_3:
+            remain_except_last_3 = remain[0:-len(last_3)]
+            if len(remain_except_last_3) >=2:
+                list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
+                list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
+                for last_2 in list_last_2:
+                    last_1 = str(int(last_3) - int(last_2))
+                    remain_except_last_3_last_2 = remain_except_last_3[0:-len(last_2)]
+                    if last_1 == remain_except_last_3_last_2[-len(last_1):]:
+                        temp_current_list = copy.deepcopy(current_list)
+                        temp_current_list.append(last_3)
+                        temp_current_list.append(last_2)
+                        temp_current_list.append(last_1)
+                        count = len(remain_except_last_3_last_2) 
+                        find_fibonacci(last_1, None, None, remain_except_last_3_last_2, temp_current_list, count, n)
+    else:
+        remain_except_last_3 = remain[0:-len(last_3)]
+        if len(remain_except_last_3) >=2:
+            list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
+            list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
+            for last_2 in list_last_2:
+                last_1 = str(int(last_3) - int(last_2))  
+                remain_except_last_3_last_2 = remain_except_last_3[0:-len(last_2)]
+                if last_1 == remain_except_last_3_last_2[-len(last_1):]:
+                    temp_current_list = copy.deepcopy(current_list)
+                    temp_current_list.append(last_2)
+                    temp_current_list.append(last_1)
+                    count = len(remain_except_last_3_last_2) 
+                    find_fibonacci(last_3=None, last_2=None, last_1=None, remain = remain_except_last_3_last_2, current_list=temp_current_list, count=count)        
 
 
 def main():
-    print(splitIntoFibonacci(5))
-
+    num = "1101111"
+    n =len(num)
+    print(find_fibonacci(last_3=None, last_2=None, last_1=None, remain=num, current_list=[], count=n, n=n))
 
 
 if __name__ == "__main__":
     main()
+
+
+
+# class Solution:
+#     def splitIntoFibonacci(self, num: str) -> List[int]:
+#         def backtrack(sequence, index, currentNum, sumOfLastTwo):
+#             if index == len(num):
+#                 return len(sequence) >= 3
+
+#             for i in range(index, len(num)):
+#                 # Check for leading zeros in currentNum
+#                 if num[index] == '0' and i > index:
+#                     break
+
+#                 newNum = int(num[index:i+1])
+
+#                 # Check if currentNum is greater than the sum of last two numbers
+#                 if len(sequence) >= 2 and newNum > sumOfLastTwo:
+#                     break
+
+#                 if len(sequence) < 2 or newNum == sumOfLastTwo:
+#                     sequence.append(newNum)
+#                     if backtrack(sequence, i+1, newNum, currentNum + newNum):
+#                         return sequence
+
+#                     sequence.pop()
+
+#             return []
+#         return backtrack([], 0, 0, 0)    
