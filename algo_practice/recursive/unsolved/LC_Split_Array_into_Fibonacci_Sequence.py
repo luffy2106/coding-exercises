@@ -61,41 +61,58 @@ find(last_3=None, last_2=None, last_1=None, remain, current_list=[], count):
 
 import copy
 
+def list_fibo_for_each_last_3(remain_except_last_3, last_3, count_remain_num, current_list=[]):
+    """For each last 3, recursively find the next other element last_1 and last_2 such as : last_3 = last_1 + last_2s
 
-def find_fibonacci(last_3=None, last_2=None, last_1=None, remain='', current_list=[], count=any, n=any):
-    if count == 0:
+    Args:
+        remain_except_last_3 (_type_): _description_
+        last_3 (_type_): _description_
+        count_remain_num (_type_): _description_
+        current_list (list, optional): _description_. Defaults to [].
+
+    Returns:
+        _type_: _description_
+    """
+
+    if count_remain_num == 0:
         return current_list
-    if count == n :
-        list_last_3 = [remain[-i:] for i in range(1,len(remain)-1)]
-        for last_3 in list_last_3:
-            remain_except_last_3 = remain[0:-len(last_3)]
-            if len(remain_except_last_3) >=2:
-                list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
-                list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
-                for last_2 in list_last_2:
-                    last_1 = str(int(last_3) - int(last_2))
-                    remain_except_last_3_last_2 = remain_except_last_3[0:-len(last_2)]
-                    if last_1 == remain_except_last_3_last_2[-len(last_1):]:
-                        temp_current_list = copy.deepcopy(current_list)
-                        temp_current_list.append(last_3)
-                        temp_current_list.append(last_2)
-                        temp_current_list.append(last_1)
-                        count = len(remain_except_last_3_last_2) 
-                        find_fibonacci(last_1, None, None, remain_except_last_3_last_2, temp_current_list, count, n)
     else:
-        remain_except_last_3 = remain[0:-len(last_3)]
+        list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
+        list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
+        for last_2 in list_last_2:
+            last_1 = str(int(last_3) - int(last_2))  
+            remain_except_last_3_last_2 = remain_except_last_3[0:-len(last_2)]
+            if last_1 == remain_except_last_3_last_2[-len(last_1):]:
+                temp_current_list = copy.deepcopy(current_list)
+                temp_current_list.append(last_2)
+                temp_current_list.append(last_1)
+                count_remain_num = len(remain_except_last_3_last_2) 
+                return list_fibo_for_each_last_3(remain_except_last_3, last_3, count_remain_num, current_list=temp_current_list)
+            else:
+                return [] 
+
+def find_fibonacci(text):
+    """loop all possible last elements in the Fibonacci list, looking for the generated Fibonacci list correspond to this element 
+    Args:
+        text (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+
+    list_last_3 = [text[-i:] for i in range(1,len(text)-1)]
+    for last_3 in list_last_3:
+        remain_except_last_3 = text[0:-len(last_3)]
         if len(remain_except_last_3) >=2:
-            list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
-            list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
-            for last_2 in list_last_2:
-                last_1 = str(int(last_3) - int(last_2))  
-                remain_except_last_3_last_2 = remain_except_last_3[0:-len(last_2)]
-                if last_1 == remain_except_last_3_last_2[-len(last_1):]:
-                    temp_current_list = copy.deepcopy(current_list)
-                    temp_current_list.append(last_2)
-                    temp_current_list.append(last_1)
-                    count = len(remain_except_last_3_last_2) 
-                    find_fibonacci(last_3=None, last_2=None, last_1=None, remain = remain_except_last_3_last_2, current_list=temp_current_list, count=count)        
+            count_remain_num = len(remain_except_last_3)
+            list_fibo_last_3 =  list_fibo_for_each_last_3(remain_except_last_3, last_3, count_remain_num, current_list=[])
+            if list_fibo_last_3 != []:
+                return list_fibo_last_3
+    return []
+
+
+
+
 
 
 def main():
