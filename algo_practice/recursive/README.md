@@ -160,3 +160,11 @@ As you can see, I use deepcopy to store the value of current_list_pairs, so afte
 
 
 
+### 2. Using loop in the recursive
+
+Depend on where you put the recursive, the behavior of the recursive function will be really different :
+- When the recursive call is made inside the loop, it results in a different traversal order known as "in-order traversal".
+- When the recursive call is made before the loop, it results in a different traversal order known as "pre-order traversal"(DFS manner).
+- When the recursive call is made after the loop, it results in a different traversal order known as "post-order traversal"(BFS manner).
+
+Take a look at folder loop_in_recursive to see the example along with more detailed explaination.

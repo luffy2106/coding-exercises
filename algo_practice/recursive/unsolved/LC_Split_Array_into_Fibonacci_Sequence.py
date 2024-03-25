@@ -56,14 +56,10 @@ find(last_3=None, last_2=None, last_1=None, remain, current_list=[], count):
         if count == 0:
             return current_list
 """
-
-
-
 import copy
 
-def list_fibo_for_each_last_3(remain_except_last_3, last_3, count_remain_num, current_list=[]):
+def list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list=[]):
     """For each last 3, recursively find the next other element last_1 and last_2 such as : last_3 = last_1 + last_2s
-
     Args:
         remain_except_last_3 (_type_): _description_
         last_3 (_type_): _description_
@@ -73,24 +69,27 @@ def list_fibo_for_each_last_3(remain_except_last_3, last_3, count_remain_num, cu
     Returns:
         _type_: _description_
     """
-
-    if count_remain_num == 0:
-        return current_list
-    else:
-        list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
-        list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
-        for last_2 in list_last_2:
-            last_1 = str(int(last_3) - int(last_2))  
-            remain_except_last_3_last_2 = remain_except_last_3[0:-len(last_2)]
-            if last_1 == remain_except_last_3_last_2[-len(last_1):]:
-                temp_current_list = copy.deepcopy(current_list)
-                temp_current_list.append(last_2)
-                temp_current_list.append(last_1)
-                count_remain_num = len(remain_except_last_3_last_2) 
-                return list_fibo_for_each_last_3(remain_except_last_3, last_3, count_remain_num, current_list=temp_current_list)
+    result = None
+    list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
+    list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
+    for last_2 in list_last_2:
+        last_1 = str(int(last_3) - int(last_2))  
+        remain_except_last_3_last_2 = remain_except_last_3[0:-len(last_2)]
+        if remain_except_last_3_last_2.endswith(last_1): 
+            # last_2 is qualified to the fibo list 
+            temp_current_list = copy.deepcopy(current_list)
+            temp_current_list.append(last_2)
+            # count_remain_num = len(remain_except_last_3_last_2)
+            if remain_except_last_3_last_2 == last_1:
+                return current_list 
             else:
-                return [] 
-
+                result = list_fibo_for_each_last_3(remain_except_last_3_last_2, last_2, current_list=temp_current_list)
+                # return list_fibo_for_each_last_3(remain_except_last_3_last_2, last_2, current_list=temp_current_list)
+            if result:
+                break
+        # else:
+        #     return [] 
+    return result
 def find_fibonacci(text):
     """loop all possible last elements in the Fibonacci list, looking for the generated Fibonacci list correspond to this element 
     Args:
@@ -104,9 +103,8 @@ def find_fibonacci(text):
     for last_3 in list_last_3:
         remain_except_last_3 = text[0:-len(last_3)]
         if len(remain_except_last_3) >=2:
-            count_remain_num = len(remain_except_last_3)
-            list_fibo_last_3 =  list_fibo_for_each_last_3(remain_except_last_3, last_3, count_remain_num, current_list=[])
-            if list_fibo_last_3 != []:
+            list_fibo_last_3 =  list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list=[])
+            if list_fibo_last_3: # If list_fibo_last_3 is not None or list_fibo_last_3 is not empty 
                 return list_fibo_last_3
     return []
 
@@ -117,8 +115,7 @@ def find_fibonacci(text):
 
 def main():
     num = "1101111"
-    n =len(num)
-    print(find_fibonacci(last_3=None, last_2=None, last_1=None, remain=num, current_list=[], count=n, n=n))
+    print(find_fibonacci(num))
 
 
 if __name__ == "__main__":
@@ -152,3 +149,40 @@ if __name__ == "__main__":
 
 #             return []
 #         return backtrack([], 0, 0, 0)    
+    
+
+
+
+
+# DFS implementation
+# class Solution:
+#     def splitIntoFibonacci(self, num: str) -> List[int]:
+#         def is_fibonacci_like(sequence):
+#             for i in range(2, len(sequence)):
+#                 if sequence[i-2] + sequence[i-1] != sequence[i]:
+#                     return False
+#             return True
+
+#         def dfs(index, sequence):
+#             if index == len(num):
+#                 if len(sequence) >= 3 and is_fibonacci_like(sequence):
+#                     return sequence
+#                 else:
+#                     return []
+
+#             for i in range(index+1, len(num)+1):
+#                 if num[index] == '0' and i > index+1:  # Skip numbers with extra leading zeroes
+#                     break
+                
+#                 current_num = int(num[index:i])
+#                 if current_num > 2**31 - 1:  # Check if the number exceeds the limit
+#                     break
+                    
+#                 if len(sequence) < 2 or sequence[-2] + sequence[-1] == current_num:
+#                     result = dfs(i, sequence + [current_num])
+#                     if result:
+#                         return result
+            
+#             return []
+
+#         return dfs(0, [])
