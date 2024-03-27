@@ -7,11 +7,11 @@ Here's an example :
 
        1
       / \
-     2   3
-    / \
-   4   5
+     2    3
+    / \  / \
+   4   5 7  8
 
-In-order traversal of the above binary tree would visit the nodes in the following order: 4 -> 2 -> 5 -> 1 -> 3. This sequence reflects the left subtree being visited first, followed by the current node, and then the right subtree.
+In-order traversal of the above binary tree would visit the nodes in the following order: 4 -> 2 -> 5 -> 1 -> 3 -> 7 ->8. This sequence reflects the left subtree being visited first, followed by the current node, and then the right subtree.
 
 
 Another example in Python to illustrate in-order traversal when the recursive call is made inside the loop:

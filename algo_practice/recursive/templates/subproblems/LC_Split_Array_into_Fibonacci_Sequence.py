@@ -17,11 +17,14 @@ Return any Fibonacci-like sequence split from num, or return [] if it cannot be 
 
 II. Analyze solution
 
-This problem belong to the template "Subproblems"
+This problem belong to the template "subproblem"
 
 Follow general steps.
-1. Define base case
+From each last elment in the string, try to find out the fibonaci list by recursive looking for the 2 previous numbers in the remain string
 
+
+1. Define base case
+The base case will end the recursive when it see that last_1+last_2+last_3 = current string
 
 2. Define recurvie case.
 - last_3 : last emelent of fibo in the current string
@@ -29,37 +32,14 @@ Follow general steps.
 - last_1 : first last element of fibo list in the current string
 - current_list : Fibo list at the time of recursive
 - count : number of character left in the recursive, start from n to 0 
-find(last_3=None, last_2=None, last_1=None, remain, current_list=[], count):
-    base case :
-        if count is n :
-            list_last_3 = [remain[-1:0], remain[-2:0]....,remain[-n:2]]
-            for each last_3 in list_last_3:
-                remain_except_last_3 = remain -  last_3
-                list_last_2 = [remain_except_last_3[-1:0], remain_except_last_3[-2:0]....,remain_except_last_3[-n:1]] and last_2 <= last_3
-                for each last_2 in list_last_2:
-                    last_1 = last_3 - last_2
-                    remain_except_last_3_last_2 = remain_except_last_3 - last_2
-                    if last_1 in remain_except_last_3_last_2:
-                        current_list = [last_3,last_2,last_1]
-                        count = len(remain) 
-                        find(last_3=None, last_2=None, last_1=None, remain, current_list, count)
-        elif:
-            remain_except_last_3 = remain -  last_3
-            list_last_2 = [remain_except_last_3[-1:0], remain_except_last_3[-2:0]....,remain_except_last_3[-n:1]] and last_2 <= last_3
-            for each last_2 in list_last_2:
-                last_1 = last_3 - last_2
-                remain_except_last_3_last_2 = remain_except_last_3 - last_2
-                if last_1 in remain_except_last_3_last_2:
-                    current_list = [last_3,last_2,last_1]
-                    count = len(remain) 
-                    find(last_3=None, last_2=None, last_1=None, remain, current_list, count)         
-        if count == 0:
-            return current_list
+
 """
 import copy
 
-def list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list=[]):
-    """For each last 3, recursively find the next other element last_1 and last_2 such as : last_3 = last_1 + last_2s
+def generate_list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list, possible_list):
+    """For each last 3, recursively find the next other element last_1 and last_2 such as : last_3 = last_1 + last_2
+    
+    The base case will end the recursive when it see that last_1+last_2+last_3 = current string
     Args:
         remain_except_last_3 (_type_): _description_
         last_3 (_type_): _description_
@@ -69,43 +49,46 @@ def list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list=[]):
     Returns:
         _type_: _description_
     """
-    result = None
     list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
     list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
     for last_2 in list_last_2:
         last_1 = str(int(last_3) - int(last_2))  
-        remain_except_last_3_last_2 = remain_except_last_3[0:-len(last_2)]
+        remain_except_last_3_last_2 = remain_except_last_3[:-len(last_2)]
         if remain_except_last_3_last_2.endswith(last_1): 
             # last_2 is qualified to the fibo list 
             temp_current_list = copy.deepcopy(current_list)
-            temp_current_list.append(last_2)
-            # count_remain_num = len(remain_except_last_3_last_2)
+            temp_current_list.append(int(last_2))
             if remain_except_last_3_last_2 == last_1:
-                return current_list 
-            else:
-                result = list_fibo_for_each_last_3(remain_except_last_3_last_2, last_2, current_list=temp_current_list)
-                # return list_fibo_for_each_last_3(remain_except_last_3_last_2, last_2, current_list=temp_current_list)
-            if result:
-                break
-        # else:
-        #     return [] 
-    return result
-def find_fibonacci(text):
+                # break recursive
+                current_list.append(int(last_2))
+                current_list.append(int(last_1))
+                possible_list.append(current_list)
+                return None
+            generate_list_fibo_for_each_last_3(remain_except_last_3_last_2, last_2, temp_current_list, possible_list)
+            
+    return possible_list
+
+def find_fibonacci(num):
     """loop all possible last elements in the Fibonacci list, looking for the generated Fibonacci list correspond to this element 
     Args:
-        text (_type_): _description_
+        num (_type_): _description_
 
     Returns:
         _type_: _description_
     """
+    if num.startswith("0"):
+        return []
 
-    list_last_3 = [text[-i:] for i in range(1,len(text)-1)]
+    list_last_3 = [num[-i:] for i in range(1,len(num)-1)]
     for last_3 in list_last_3:
-        remain_except_last_3 = text[0:-len(last_3)]
+        remain_except_last_3 = num[0:-len(last_3)]
         if len(remain_except_last_3) >=2:
-            list_fibo_last_3 =  list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list=[])
-            if list_fibo_last_3: # If list_fibo_last_3 is not None or list_fibo_last_3 is not empty 
-                return list_fibo_last_3
+            list_fibo_last_3 =  generate_list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list=[], possible_list = [])
+            if list_fibo_last_3: # If list_fibo_last_3 is not None or list_fibo_last_3 is not empty
+                fibo_last_3 = list_fibo_last_3[0] 
+                fibo_last_3.reverse()
+                fibo_last_3.append(int(last_3))
+                return fibo_last_3
     return []
 
 

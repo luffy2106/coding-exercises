@@ -60,6 +60,13 @@ Example:
 
 - find all the possible ways to interleave 2 strings
 
+Reference :
+
+Review materials at this path to understand the general steps to solve permutation problem :
+
+```
+coding-exercises/algo_practice/recursive/Reference/recursion_part_3
+```
 4. Ordering
 
 This pattern is similar to Selection, but the order of how the elements are combined matters.
@@ -105,7 +112,7 @@ https://x.com/Franc0Fernand0/status/1743912610406223896?s=20
 
 ### General tricks
 
-### 1. Back tracking
+#### 1. Back tracking
 During the recursive process, we might want to keep the variable update until it converge to the base case. However, sometimes we want the variable come back to the previous state after calling the recursive(especially when you call recursive in the loop function). In this case, we need to use a technique named "back tracking", the main ideas is to store the state of the variable into a temporary variable before calling recursive and call it back after calling recursive. 
 
 In python, when we store the variable in a a temporary variable, we need to consider "shallow copy" problem. For this reason, back tracking has different method for each type of variable. 
@@ -160,7 +167,7 @@ As you can see, I use deepcopy to store the value of current_list_pairs, so afte
 
 
 
-### 2. Using loop in the recursive
+#### 2. Using loop in the recursive
 
 Depend on where you put the recursive, the behavior of the recursive function will be really different :
 - When the recursive call is made inside the loop, it results in a different traversal order known as "in-order traversal".
@@ -168,3 +175,44 @@ Depend on where you put the recursive, the behavior of the recursive function wi
 - When the recursive call is made after the loop, it results in a different traversal order known as "post-order traversal"(BFS manner).
 
 Take a look at folder loop_in_recursive to see the example along with more detailed explaination.
+
+
+#### 3. Return in recursive function
+
+Example Illustrating the Difference in Using "return" vs Not Using "return":
+Let's consider a simple recursive function that calculates the factorial of a number. We will compare two versions of the function: one using return and the other without.
+
+```
+def calculate_factorial_with_return(n):
+    if n == 0:
+        return 1
+    else:
+        return n * calculate_factorial_with_return(n - 1)
+
+def calculate_factorial_without_return(n, result=1):
+    if n == 0:
+        return result
+    else:
+        calculate_factorial_without_return(n - 1, result * n)
+```
+- In the first function calculate_factorial_with_return, we use return to explicitly return the calculated factorial value at each step of the recursion. The return values are propagated back through the recursive calls and can be captured by the caller.
+- In the second function calculate_factorial_without_return, we don't use return within the recursive call. Instead, we rely on modifying the result variable as the recursion progresses. However, since we don't return this modified result, the final calculated factorial is lost and not accessible outside the function.
+
+```
+# Using calculate_factorial_with_return
+result_with_return = calculate_factorial_with_return(5)
+print("Factorial with return:", result_with_return)  # Output: 120
+
+# Using calculate_factorial_without_return
+result_without_return = calculate_factorial_without_return(5)
+print("Factorial without return:", result_without_return)  # Output: None (since result is not returned)
+```
+
+When you run the code snippet above, you will see that calculate_factorial_with_return correctly returns and calculates the factorial value, while calculate_factorial_without_return does not return the calculated factorial value.
+
+
+
+### Good reference
+```
+https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1126/
+```
