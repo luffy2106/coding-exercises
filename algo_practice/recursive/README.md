@@ -119,6 +119,7 @@ In python, when we store the variable in a a temporary variable, we need to cons
 
 1. Immutable objects:
 
+Case 1:
 No problem with shallow copy: If the compound object contains only immutable objects (objects that cannot be modified after creation, like integers, strings, or tuples)
 
 Ex :
@@ -138,7 +139,115 @@ countdown(5)
 Result : 5 4 3 2 1
 ```
 
-2. Mutable objects
+Case 2:
+If you want to update string during the recursive, there are 2 ways
+1. Update by using list:
+```
+def generate_string(n, current_str=[]):
+    if n == 0:
+        return ''.join(current_str)  # Join the list elements to form the final string
+    
+    current_str.append(str(n))  # Append the current number to the list
+    
+    return generate_string(n-1, current_str)  # Recursive call with updated list
+
+# Call the recursive function to generate a string with numbers from n to 1
+result = generate_string(5)
+
+print(result)  # Output: "54321"
+```
+In this example:
+- The generate_string function takes an integer n as input and a list current_str to store the string.
+- If n is 0, it joins the elements of the current_str list and returns the final string.
+- Otherwise, it appends the current number (n) to the current_str list and makes a recursive call with n-1.
+By using a list (current_str) to accumulate the string data and joining the elements at the end, we avoid creating multiple string objects during recursion. This simple example demonstrates the concept of storing and updating a string in a recursive function efficiently.
+
+2. Update by concatinate new string
+```
+def generate_string(n, current_str=""):
+    if n == 0:
+        return current_str
+    
+    current_str = current_str + str(n)  # Update the string by concatenation
+    
+    return generate_string(n-1, current_str)
+
+result = generate_string(5)
+
+print(result)  # Output: "54321"
+```
+In this case:
+- Each time current_str is updated by concatenation, a new string object is created.
+- This results in creating multiple string objects in memory during each recursive call.
+- The new string object is then passed to the next recursive call, leading to additional memory overhead.
+While this approach may work for small inputs, it is less efficient compared to using a list to accumulate the string data in a recursive function. The method of updating current_str by concatenation may cause performance issues when dealing with large strings or a high number of recursive calls due to the creation of multiple string objects.
+
+Update string during the recursive might have weird behavior when your recursive function has loop:
+```
+def traverse_graph(node, chain, fbs, dict_pbs, traversed_node, dict_pbs_allocation, suggestion):
+    list_child_node = node.get_list_child()
+    list_child_value = [node.value for node in list_child_node]
+    list_child_dict = [child+": "+dict_pbs[child] for child in list_child_value]
+    if list_child_dict:
+        logging.info("list pbs consider is : {}".format(list_child_dict))
+        list_pbs_allocation, explanation = get_response_from_list_pbs(chain, fbs, list_child_dict)
+        for pbs_allocation in list_pbs_allocation:
+            if ":" in pbs_allocation:
+                key,value = [x.strip() for x in pbs_allocation.split(":")]
+                if key not in dict_pbs_allocation.keys():
+                    dict_pbs_allocation[key] = value
+        logging.info(("corresponding dict pbs allocation : {}".format(dict_pbs_allocation)))
+        
+        suggestion = suggestion + explanation #(*)
+        
+        logging.info("The explaination for {} is : {}".format(list_child_dict,explanation))
+        for child_node in list_child_node:
+            if child_node not in traversed_node:
+                traversed_node.append(child_node)
+                traverse_graph(child_node, chain, fbs, dict_pbs, traversed_node, dict_pbs_allocation, suggestion)
+    
+    # End recursive
+    
+    return dict_pbs_allocation, suggestion
+```
+
+In the above example, the final "suggestion" variable will not store all the value accumumated in the recursive function because in the step(*) the new suggestion comeback to the previous state after the function loop to another element.
+
+The best solution is using a list to store list of string, then merger in later when the recursion process end
+```
+def traverse_graph(node, chain, fbs, dict_pbs, traversed_node, dict_pbs_allocation, list_suggestion):
+    list_child_node = node.get_list_child()
+    list_child_value = [node.value for node in list_child_node]
+    list_child_dict = [child+": "+dict_pbs[child] for child in list_child_value]
+    if list_child_dict:
+        logging.info("list pbs consider is : {}".format(list_child_dict))
+        list_pbs_allocation, explanation = get_response_from_list_pbs(chain, fbs, list_child_dict)
+        for pbs_allocation in list_pbs_allocation:
+            if ":" in pbs_allocation:
+                key,value = [x.strip() for x in pbs_allocation.split(":")]
+                if key not in dict_pbs_allocation.keys():
+                    dict_pbs_allocation[key] = value
+        logging.info(("corresponding dict pbs allocation : {}".format(dict_pbs_allocation)))
+        
+        suggestion_current_pbs = "The explaination for {} is : ".format(list_child_dict) + explanation
+        list_suggestion.append(suggestion_current_pbs)
+
+        logging.info("The explaination for {} is : {}".format(list_child_dict,explanation))
+        for child_node in list_child_node:
+            if child_node not in traversed_node:
+                traversed_node.append(child_node)
+                traverse_graph(child_node, chain, fbs, dict_pbs, traversed_node, dict_pbs_allocation, list_suggestion)
+    
+    # End recursive
+    all_suggestion = "\n".join(list_suggestion)
+    
+    return dict_pbs_allocation, all_suggestion
+```
+
+
+
+
+3. Mutable objects
 
 Problem with shallow copy: If you have a compound object containing mutable objects (objects that can be modified after creation), a shallow copy of that object will create a new object, but it will still reference the same nested mutable objects. Therefore, changes to the nested mutable objects will be reflected in both the original and the shallow copy.
 
