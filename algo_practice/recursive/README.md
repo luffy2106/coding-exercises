@@ -182,6 +182,7 @@ In this case:
 - The new string object is then passed to the next recursive call, leading to additional memory overhead.
 While this approach may work for small inputs, it is less efficient compared to using a list to accumulate the string data in a recursive function. The method of updating current_str by concatenation may cause performance issues when dealing with large strings or a high number of recursive calls due to the creation of multiple string objects.
 
+###### Remember :
 Update string during the recursive might have weird behavior when your recursive function has loop:
 ```
 def traverse_graph(node, chain, fbs, dict_pbs, traversed_node, dict_pbs_allocation, suggestion):
