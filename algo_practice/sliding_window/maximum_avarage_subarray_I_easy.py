@@ -26,7 +26,7 @@ class Solution_naive:
     def findMaxAverage(self, nums: List[int], k: int) -> float:
         n = len(nums)
         max_average_sum = -104 
-        for i in range(n-k+1): # the last i wills start from the index n-k, so the last window will be [n-k ...n]
+        for i in range(n-k+1): # the last i will be n-k, so the last window is [pln[n-k], ...pln[n-1]]
             current_sum = 0
             for j in range(k):
                 current_sum = current_sum + nums[i+j]
