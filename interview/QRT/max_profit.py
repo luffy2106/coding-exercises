@@ -1,10 +1,10 @@
 """
-Suppose that we have a list of n integers [1, -2, -3, 4, -5, 6], you choose m continuous element from this list(such as m < k),
+Suppose that we have a list of n integers [1, -2, -3, 4, -2, 6], you choose m continuous element from this list(such as m < k),
 find the max sum that you can have from this m number
 
 Ex:
 
-The max sum you have in above example is : 4 - 5 + 6 = 5, and we choose m = 3
+The max sum you have in above example is : 4 - 2 + 6 = 8, and we choose m = 3
 
 1. First solution(greed search)
 
@@ -39,28 +39,19 @@ Sliding window prolem, review the theory at
 
 https://www.geeksforgeeks.org/window-sliding-technique/
 
+Check the solution at getMaxProfit_solution_sliding_window function
 
+The complexity of this approach is O(k*n)
 
+3. Third solution
+
+We still can optimize the sliding window solution but it will be the work in the future
 
 """
 
 
 from typing import List
 from queue import Queue
-
-
-
-
-
-def getMaxProfit_solution_2(pnl,k):
-    
-
-
-    
-    
-    return
-
-
 
 
 
@@ -78,12 +69,28 @@ def getMaxProfit_solution_1(pnl, k):
     return max_sum
 
 
+def getMaxProfit_solution_sliding_window(pnl, K):
 
+
+    n = len(pnl)
+    max_sum_total = -104 * n
+    for k in range(K):
+        max_sum_K = -104 * K
+        # Step 1 : Calculate sum of first sliding window side k
+        sum_k = sum(pnl[:k])
+        for i in range(n-k): 
+            sum_k = sum_k + pnl[i+k] - pnl[i]
+            max_sum_K = max(sum_k, max_sum_K)
+        max_sum_total = max(max_sum_K, max_sum_total)
+        
+    return max_sum_total
 
 
 def main():
     # Your main code logic goes here
-    print("Hello, World!")
-
+    pnl  = [1, -2, -3, 4, -2, 6]
+    k = 3
+    max_sum = getMaxProfit_solution_sliding_window(pnl,k)
+    print("max sum is {}".format(max_sum))
 if __name__ == "__main__":
     main()
