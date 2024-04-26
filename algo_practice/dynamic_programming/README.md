@@ -3,8 +3,14 @@
 Dynamic Programming is a method used in mathematics and computer science to solve complex problems by breaking them down into simpler subproblems. By solving each subproblem only once and storing the results, it avoids redundant computations, leading to more efficient solutions for a wide range of problems. This article provides a detailed exploration of dynamic programming concepts, illustrated with examples
 
 More details:
-
+Dynamic programming:
 https://www.geeksforgeeks.org/dynamic-programming/
+
+Top-Down Approach (Memoization)
+https://www.geeksforgeeks.org/what-is-memoization-a-complete-tutorial/
+
+The difference between Top-Down Approach (Memoization) and Top-Down Approach (Memoization)
+https://www.geeksforgeeks.org/tabulation-vs-memoization/
 
 
 #### Difference between Dynamic Programming and Recursive
@@ -39,7 +45,7 @@ Let’s breakdown Top down approach:
 - Stores the solutions to subproblems in a table to avoid redundant calculations.
 - Suitable when the number of subproblems is large and many of them are reused.
 
-2. Bottom-Up Approach (Tabulation):
+2. Top-Down Approach (Memoization):
 In the bottom-up approach, also known as tabulation, we start with the smallest subproblems and gradually build up to the final solution. We store the results of solved subproblems in a table to avoid redundant calculations.
 
 Let’s breakdown Bottom-up approach:
