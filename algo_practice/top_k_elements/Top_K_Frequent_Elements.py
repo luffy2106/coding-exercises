@@ -6,10 +6,12 @@ Follow up: Your algorithm's time complexity must be better than O(n log n), wher
 
 Solution:
 Need to review heap first.
-- Build a dict frequency with the key is the number and the value is the occurence of that number
-- At the same time, build heap to store the frequency of number in descending order
-- reverser the dict frequency, so we have the key which is the occurence and the value is the number 
-- From the reversered dict frequency and the heap max, we can print the list of top-k-frequent-elements  
+- Build a dict frequency with the key is the number and the value is the occurence of that number. At the same time, build heap to store the frequency of number in descending order
+(it will take O(n))
+- reverser the dict frequency, so we have the key which is the occurence and the value is the number (it will take O(n)) 
+- From the reversered dict frequency and the heap max, we can print the list of top-k-frequent-elements  (it will take O(k))
+
+The solution have O(n) complexity which is better than O(n log n)
 """
 
 import heapq
