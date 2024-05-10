@@ -2,11 +2,14 @@
 Problem:
 https://leetcode.com/problems/top-k-frequent-elements/description/
 
+Follow up: Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
 
 Solution:
 Need to review heap first.
-- From array, convert it to heap max, this step take 0(log N)
-- Because it heap max, the element in the top alway bigger than the child => we can print the largest K
+- Build a dict frequency with the key is the number and the value is the occurence of that number
+- At the same time, build heap to store the frequency of number in descending order
+- reverser the dict frequency, so we have the key which is the occurence and the value is the number 
+- From the reversered dict frequency and the heap max, we can print the list of top-k-frequent-elements  
 """
 
 import heapq
@@ -26,13 +29,20 @@ class Solution:
         heap_frequent = []
         top_k_frequent = []
         dict_frequency = {}
+        # Build a dict frequency with the key is the number and the value is the occurence of that number
         for num in nums:
             if num in dict_frequency.keys():
                 dict_frequency[num] += 1
-                heapq.heappush(heap_frequent, PQEntry(dict_frequency[num]))
+                heapq.heappush(heap_frequent, PQEntry(num))
             else:
                 dict_frequency[num] = 1
-                heapq.heappush(heap_frequent, PQEntry(dict_frequency[num]))
+                heapq.heappush(heap_frequent, PQEntry(num))
+        # Convert key to value and value to key in dict_frequency
+        dict_frequency_reversed = {dict_frequency[num]:num for num in dict_frequency.keys()}
+
+
         for i in range(k):
-            top_k_frequent.append(heapq.heappop(heap_frequent).value)
+            top_frequency = heapq.heappop(heap_frequent).value
+            key_top_frequency = dict_frequency_reversed[top_frequency]
+            top_k_frequent.append(key_top_frequency)
         return top_k_frequent
