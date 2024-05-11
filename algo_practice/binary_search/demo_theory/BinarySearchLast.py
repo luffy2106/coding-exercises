@@ -7,21 +7,22 @@ Ex :
 a = [1,1,2,2,2,3,4,5,7]
 target = 2
 
-Expected output : 2
+Expected output : 4
 """
 
-def binary_search_first(a, target, left, right):
+def binary_search_last(a, target, left, right):
     if left <= right:
-        mid = (left + right) // 2
-        if a[mid] == target  and (a[mid-1]!=target or left == mid):
+        mid = (left + right)//2
+        if a[mid] == target and (a[mid+1] != target or mid == right):
             return mid
         elif a[mid] < target:
-            left = mid  + 1
-            return binary_search_first(a, target, left, right)
+            mid = left + 1
+            return binary_search_last(a, target, left, right)
         else:
-            right = mid - 1
-            return binary_search_first(a, target, left, right)
-    return -1
+            mid = right -1
+            return binary_search_last(a, target, left, right)
+    return -1 
+    
 
 
 
@@ -31,5 +32,5 @@ if __name__ == '__main__':
     target = 2
     left = 0
     right = len(a)
-    print(binary_search_first(a, target, left, right))
+    print(binary_search_last(a, target, left, right))
     

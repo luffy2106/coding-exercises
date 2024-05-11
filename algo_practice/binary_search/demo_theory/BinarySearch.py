@@ -43,8 +43,8 @@ def binary_search_recursion(a, target, left, right):
 
 
 if __name__ == '__main__':
-    a = [1,3,5,6]
-    target = 2
+    a = [1,1,2,2,2,3,4,5,7]
+    target = 3
     left = 0
     right = len(a)
     print(binary_search(a, target, left, right))
