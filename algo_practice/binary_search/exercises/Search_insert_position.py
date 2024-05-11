@@ -2,7 +2,7 @@
 https://leetcode.com/problems/search-insert-position/
 """
 
-
+from typing import List
 
 
 
