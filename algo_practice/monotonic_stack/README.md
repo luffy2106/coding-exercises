@@ -33,10 +33,34 @@ Complexity Analysis:
 - Time Complexity: O(N), each element is processed only twice, once for the push operation and once for the pop operation.
 - Auxiliary Space: O(N) 
 
+3. Application
+You will use motonic stack when you want to find the closestsmaller/greater number of each number in a list. For example :
+
+If we have this list:
+[1,2,3,4,3]
+The list which include the closest greater number of each number of the above list is:
+[2,3,4,-1,-1]
+- 2 is greater than 1 and it's the closest to 1
+- 3 is greater than 2 and it's the closest to 2
+- 4 is greater than 3 and it's the closest to 3
+- on the right of 4 there is no number greater than 4 => -1
+- on the right of 3 there is no number greater than 3 => -1
+
+Just remember :
+- If you want to find next greater : Use monotonic_decreasing_stack(the bottom is the highest)
+- If you want to find next smaller : Use monotonic_increasing_stack(the bottom is the lowest)
 
 
+4. Practice 
+
+To be master in monotonic stack, solve all the leet code problems in the following link(most of the exercises is quite similar):
+```
+https://leetcode.com/discuss/study-guide/2347639/A-comprehensive-guide-and-template-for-monotonic-stack-based-problems
+```
 
 #### Full reference 
 ```
 https://www.geeksforgeeks.org/introduction-to-monotonic-stack-data-structure-and-algorithm-tutorials/
 ```
+
+

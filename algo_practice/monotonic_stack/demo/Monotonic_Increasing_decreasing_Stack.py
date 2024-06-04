@@ -1,7 +1,13 @@
 """
 Question :
 Given the array, take a subset of that array such as all element in that subset is on increasing/decreasing order. Do it with the
-complexity O(N)
+complexity O(N).
+
+Ex :
+Input : [3, 1, 4, 1, 5, 9, 2, 6]
+Monotonic increasing stack: [1, 1, 2, 6]
+Monotonic decreasing stack: [9, 6]
+
 """
 
 
