@@ -1,7 +1,7 @@
 
 """
 1. Question
-https://leetcode.com/problems/final-prices-with-a-special-discount-in-a-shop/
+https://leetcode.com/problems/next-greater-element-ii/
 
 2. Solution
 The problem is about finding next greater, so we will use monotonic_decreasing_stack
