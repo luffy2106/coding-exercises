@@ -30,4 +30,15 @@ https://www.geeksforgeeks.org/backtracking-algorithms/
 ```
 
 
+### Note about back tracking:
+- Break recursive by return
+- Do backtracking by do the inverse action that you did before calling recursive. For example: if you add before recursive, you need to remove after calling recursive. If you remove something before recursive, you need to add it later after calling recursive. Ex:
+for word in wordSet:
+    if self.check_words_difference(previousWord, word):                
+        path_words.append(word)
+        wordSet.remove(word)
+        self.generate_path(word, endWord, wordSet, path_words, list_path)
+        path_words.pop()
+        wordSet.add(word)
+- Pay attention to shallow copy when working with mutalble object like List, Set, Dictionary. Ex: When you modified any element in the list, the reference you used before that also change, one way of prevent weird result is using shallow copy(take a look at example word_ladder.py for more details)
 
