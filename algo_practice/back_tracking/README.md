@@ -3,6 +3,8 @@
 ##### How Does a Backtracking Algorithm Work?
 A backtracking algorithm works by recursively exploring all possible solutions to a problem. It starts by choosing an initial solution, and then it explores all possible extensions of that solution. If an extension leads to a solution, the algorithm returns that solution. If an extension does not lead to a solution, the algorithm backtracks to the previous solution and tries a different extension.
 
+So in fact, it’s kinda like a depth-first search(DFS) with an added constraint that we stop exploring the subtree as soon as we know for sure that it won’t lead to valid solution.
+
 The following is a general outline of how a backtracking algorithm works:
 - Choose an initial solution.
 - Explore all possible extensions of the current solution.
@@ -42,3 +44,9 @@ for word in wordSet:
         wordSet.add(word)
 - Pay attention to shallow copy when working with mutalble object like List, Set, Dictionary. Ex: When you modified any element in the list, the reference you used before that also change, one way of prevent weird result is using shallow copy(take a look at example word_ladder.py for more details)
 
+### Practice
+
+Try to master back tracking pattern by the examples written in the following link(5 exercises in total)
+```
+https://medium.com/leetcode-patterns/leetcode-pattern-3-backtracking-5d9e5a03dc26
+```
