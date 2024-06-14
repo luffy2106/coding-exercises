@@ -18,6 +18,10 @@ The general steps to solve these questions by following below steps:
 - Find the size of the window required, say K.
 - Compute the result for 1st window, i.e. include the first K elements of the data structure.
 - Then use a loop to slide the window by 1 and keep computing the result window by window.
+
+Check the following exercises:
+- maximum_avarage_subarray_I_easy.py
+
 2. Variable Size Sliding Window:
 The general steps to solve these questions by following below steps:
 - In this type of sliding window problem, we increase our right pointer one by one till our condition is true.
@@ -33,3 +37,10 @@ The general steps to solve these questions by following below steps:
 - These problems can easily be solved in O(N2) time complexity using nested loops, using sliding window we can solve these in O(n) Time Complexity.
 - Required Time Complexity: O(N) or O(Nlog(N))
 - Constraints: N <= 106 , If N is the size of the Array/String.
+
+
+
+Reference:
+```
+https://www.geeksforgeeks.org/window-sliding-technique/
+```
