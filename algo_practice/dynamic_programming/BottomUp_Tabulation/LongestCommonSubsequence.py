@@ -46,9 +46,11 @@ class Solution:
         A[0][1] = 0
         A[1][0] = 0
         
-        for i in range(1, rows):
-            for j in range(1, cols):
-                if text1[i-1] == text2[j-1]:
+        for i in range(rows):
+            for j in range(cols):
+                if i == 0 and j == 0:
+                    A[i][j] = 0
+                elif text1[i-1] == text2[j-1]:
                     A[i][j] = A[i-1][j-1] + 1 # It can be understand that the number of common substring at point [i,j] = the number of common substring at point [i-1,j-1] + 1
                 else:
                     A[i][j] = max(A[i-1][j], A[i][j-1])

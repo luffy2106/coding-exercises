@@ -1,5 +1,6 @@
 """
 
+1. Question
 [need to revise many times]
 https://leetcode.com/problems/maximum-sum-of-distinct-subarrays-with-length-k/description/
 
@@ -28,6 +29,10 @@ Explanation: The subarrays of nums with length 3 are:
 - [4,4,4] which does not meet the requirements because the element 4 is repeated.
 
 We return 0 because no subarrays meet the conditions.
+
+2. Solution
+
+https://www.geeksforgeeks.org/maximum-sum-of-subarrays-having-distinct-elements-of-length-k/
 
 """
 

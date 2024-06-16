@@ -19,7 +19,7 @@ The general steps to solve these questions by following below steps:
 - Compute the result for 1st window, i.e. include the first K elements of the data structure.
 - Then use a loop to slide the window by 1 and keep computing the result window by window.
 
-Check the following exercises:
+Check the following exercises to see examples:
 - maximum_avarage_subarray_I_easy.py
 
 2. Variable Size Sliding Window:
@@ -28,6 +28,9 @@ The general steps to solve these questions by following below steps:
 - At any step if our condition does not match, we shrink the size of our window by increasing left pointer.
 - Again, when our condition satisfies, we start increasing the right pointer and follow step 1.
 - We follow these steps until we reach to the end of the array.
+
+Check the following exercises to see examples:
+- longest_substring_without_repeating_characters.py
 
 ### How to Identify Sliding Window Problems:
 - These problems generally require Finding Maximum/Minimum Subarray, Substrings which satisfy some specific condition.

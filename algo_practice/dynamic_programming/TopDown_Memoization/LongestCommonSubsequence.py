@@ -30,7 +30,7 @@ Suppose :
 - n = len(text2)
 
 1. Create 2D matrix Array A with rows = m + 1 and cols = n + 1, all the value of the matrix is -1
-2. We know that the result will be A[m][n], now we will use recursion from top to bottom to calculate the A[m][n]. Note that the 
+2. We know that the result will be A[m][n], now we will use recursion from t+op to bottom to calculate the A[m][n]. Note that the 
 main difference of normal recursion and dynamic programming in this case is we store the value which is already calculated to make sure it does not
 calculate again(recursion is expensive 0(2^n)).(*)
 """

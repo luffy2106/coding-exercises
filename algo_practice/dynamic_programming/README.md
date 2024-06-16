@@ -45,7 +45,7 @@ Let’s breakdown Top down approach:
 - Stores the solutions to subproblems in a table to avoid redundant calculations.
 - Suitable when the number of subproblems is large and many of them are reused.
 
-2. Top-Down Approach (Memoization):
+2. Bottom-Up Approach (Tabulation):
 In the bottom-up approach, also known as tabulation, we start with the smallest subproblems and gradually build up to the final solution. We store the results of solved subproblems in a table to avoid redundant calculations.
 
 Let’s breakdown Bottom-up approach:
