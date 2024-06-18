@@ -21,24 +21,49 @@ Constraints:
 - 1 <= nums.length <= 2500
 - -104 <= nums[i] <= 104
 
-Solution:
-We will solve this exercises by 2 approaches Top Down memoization and Bottom up Tabulation. The main common steps is
-- Set up 2D matrix with row and columns length = length(nums) + 1, all the element is -1 by default
-- if i == 0 and j == 0 : A[i][j] = 0
-- Go from top to bottom or from bottom to the top 
+
 
 Solution :
 
-Let L(i) be the length of the LIS ending at index i such that arr[i] is the last element of the LIS. Then, L(i) can be recursively written as: 
-- L(i) = 1 + max(L(j) ) where 0 < j < i and arr[j] < arr[i]; or 
+Let L(i) be the length of the LIS(longest strictly increasing) ending at index i such that arr[i] is the last element of the LIS. Then, L(i) can be recursively written as: 
+- L(i) = 1 + max(list(L(j)) ) where 0 < j < i and arr[j] < arr[i]; or 
 - L(i) = 1, if no such j exists.
 Ex :
 Consider arr[] = {3, 10, 2, 11}
-
-
-
-
-
-
+- L[4] = max([L[i]  for i in [0,1,2,3] if arr[i] < arr[4]) + 1 
+- L[3] = max(L[1], L[2]) + 1 and 3 greater than 1,2
+- L[2] = max(L[1],L[0]) + 1 and 2 greater than 1
+- L[1] = max(L[0]) + 1 and 1 greater than 0
 
 """
+from typing import List
+class Solution:
+    def lengthOfLIS_DP(self, n, dict_LIS, nums: List[int]) -> int:
+        if n == 0:
+            return 1
+        elif n >= 1:
+            list_LIS = []
+            for i in range(n-1):
+                LIS_i = 0
+                if nums[i] < nums[n-1]:
+                    if i in dict_LIS.keys():
+                        LIS_i = dict_LIS[i]
+                    else:
+                        LIS_i = self.lengthOfLIS_DP(i, dict_LIS, nums)
+                    list_LIS.append(LIS_i)      
+            
+            # lengthOfLIS_DP_
+            return max(list_LIS) + 1
+
+
+    
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        dict_LIS = {}
+        result = self.lengthOfLIS_DP(n, dict_LIS, nums)
+        return result
+
+
+nums = [10,9,2,5,3,7,101,18]
+x = Solution()
+print(x.lengthOfLIS(nums))
