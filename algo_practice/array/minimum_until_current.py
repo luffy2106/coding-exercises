@@ -7,6 +7,11 @@ Ex : nums = [3,1,4,2]
 min_until_current = [3, 1, 1, 1]
 max_until_current = [3, 3, 4, 4] 
 
+
+Solution:
+We can think dynamic programming like this:
+- min(until_current) = min(previous_current, current)
+
 The complexity:
 - Since we use only one loop, so the complexity is O(n)
 """
