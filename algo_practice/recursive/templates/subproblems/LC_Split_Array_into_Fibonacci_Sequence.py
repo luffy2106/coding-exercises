@@ -1,5 +1,5 @@
 """
-I. Question [Need to implement again, not correct for all test in leetcode]
+I. Question [Need to revise but not the priority because it's quite complicated]
 [Leet code]
 
 https://leetcode.com/problems/split-array-into-fibonacci-sequence/description/
@@ -24,72 +24,110 @@ From each last elment in the string, try to find out the fibonaci list by recurs
 
 
 1. Define base case
-The base case will end the recursive when it see that last_1+last_2+last_3 = current string
+The base case will end the recursive when it see that "".join(current_list) = original string
 
 2. Define recurvie case.
-- last_3 : last emelent of fibo in the current string
-- last_2 : second last element of fibo in the current string
-- last_1 : first last element of fibo list in the current string
+- element_3 : last emelent of fibo in the current string
+- element_2 : second last element of fibo in the current string
+- element_1 : first last element of fibo list in the current string
 - current_list : Fibo list at the time of recursive
-- count : number of character left in the recursive, start from n to 0 
-
+- possible_list : list of possible fibo list could be made from the original string, return any Fibonacci-like sequence split from num, or return [] if it cannot be done.
+- num : orginal string, to check when we end the recursion
+- count_move: Take into consideration when the sliding window of 3 elements move, at the beginning it behave differently
+- remain_except_element_3 the remain of the current string after we exclude the element 3
+- element 3 : the third element of the sliding window such as : element_3 = element_1  + element_2. When the sliding window move, element 2 become element 3 of the recursion function
 """
 import copy
+from typing import List
+class Solution:
 
-def generate_list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list, possible_list):
-    """For each last 3, recursively find the next other element last_1 and last_2 such as : last_3 = last_1 + last_2
-    
-    The base case will end the recursive when it see that last_1+last_2+last_3 = current string
-    Args:
-        remain_except_last_3 (_type_): _description_
-        last_3 (_type_): _description_
-        count_remain_num (_type_): _description_
-        current_list (list, optional): _description_. Defaults to [].
+    def check_element_does_not_start_with_zero(self, element):
+        if element.startswith("0"):
+            if len(element)== 1:
+                return True
+            else:
+                return False
+        # add constraints
+        if int(element) > pow(2,31) or int(element) < 0:
+            return False 
 
-    Returns:
-        _type_: _description_
-    """
-    list_last_2 = [remain_except_last_3[-i:] for i in range(1,len(remain_except_last_3))]
-    list_last_2 = [last_2 for last_2 in list_last_2 if int(last_2) <= int(last_3)]
-    for last_2 in list_last_2:
-        last_1 = str(int(last_3) - int(last_2))  
-        remain_except_last_3_last_2 = remain_except_last_3[:-len(last_2)]
-        if remain_except_last_3_last_2.endswith(last_1): 
-            # last_2 is qualified to the fibo list 
-            temp_current_list = copy.deepcopy(current_list)
-            temp_current_list.append(int(last_2))
-            if remain_except_last_3_last_2 == last_1:
-                # break recursive
-                current_list.append(int(last_2))
-                current_list.append(int(last_1))
-                possible_list.append(current_list)
-                return None
-            generate_list_fibo_for_each_last_3(remain_except_last_3_last_2, last_2, temp_current_list, possible_list)
-            
-    return possible_list
+        return True
 
-def find_fibonacci(num):
-    """loop all possible last elements in the Fibonacci list, looking for the generated Fibonacci list correspond to this element 
-    Args:
-        num (_type_): _description_
 
-    Returns:
-        _type_: _description_
-    """
-    if num.startswith("0"):
+
+    def generate_list_fibo_for_each_last_3(self, remain_except_element_3, element_3, current_list, possible_list,num, count_move):
+        """For each last 3, recursively find the next other element last_1 and last_2 such as : last_3 = last_1 + last_2
+        The base case will end the recursive when it see that last_1+last_2+last_3 = current string
+        Args:
+            remain_except_last_3 (_type_): _description_
+            last_3 (_type_): _description_
+            count_remain_num (_type_): _description_
+            current_list (list, optional): _description_. Defaults to [].
+
+        Returns:
+            _type_: _description_
+        """
+        list_element_2 = [remain_except_element_3[i:] for i in range(1, len(remain_except_element_3))]
+        list_element_2 = [element_2 for element_2 in list_element_2 if int(element_2) <= int(element_3) and self.check_element_does_not_start_with_zero(element_2)]
+        for element_2 in list_element_2:
+            remain_except_element_2 = remain_except_element_3[0:-len(element_2)]
+            list_element_1 = [remain_except_element_2[i:] for i in range(0, len(remain_except_element_2))]
+            list_element_1 = [element_1 for element_1 in list_element_1 if self.check_element_does_not_start_with_zero(element_1)]
+
+            # list_element_1 = [element_1 for element_1 in list_element_1 if int(element_1) + int(element_2) == int(element_3)]
+            # if int(remain_except_element_2[i:]) + element_2 == element_3]
+            for element_1 in list_element_1:
+                if int(element_1) + int(element_2) == int(element_3):
+                    if count_move == 0:
+                        current_list.append(int(element_3))
+                        current_list.append(int(element_2))
+                        current_list.append(int(element_1))
+                    else:
+                        current_list.append(int(element_1))
+                    current_str = ''.join([str(e) for e in current_list[::-1]])
+                    if current_str == num:
+                        possible_list.append(current_list[:])
+                        return possible_list
+                    element_3 = element_2
+                    remain_except_element_3 = remain_except_element_3[0:-len(element_3)]
+                    count_move+=1
+                    possible_list = self.generate_list_fibo_for_each_last_3(remain_except_element_3, element_3, current_list, possible_list,num, count_move)
+                    if count_move == 0 :
+                        current_list.pop()
+                        current_list.pop()
+                        current_list.pop()
+                    else:
+                        current_list.pop()
+
+                
+        return possible_list
+
+    def splitIntoFibonacci(self, num: str) -> List[int]:
+        """loop all possible last elements in the Fibonacci list, looking for the generated Fibonacci list correspond to this element 
+        Args:
+            num (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        # num string need to have at least 2 elements to qualified
+        if len(num) <= 2 or len(num)>200:
+            return []
+        # the list of possible last element of fibonaci list. Ex : 112358130, the last element could be ['2358130', '358130', '58130', '8130', '130', '30', '0']
+        list_last_elment = [num[i:] for i in range(2,len(num))]
+        list_last_elment = [last_element for last_element in list_last_elment if self.check_element_does_not_start_with_zero(last_element)]
+        possible_list = []
+        for last_element in list_last_elment:
+            remain_except_last_element = num[0:-len(last_element)]  # Ex : 112358130. list of possible remain except last element.  Ex : 112358130, the remain could be ['11', '112', '1123', '11235', '112358', '1123581', '11235813']
+            # current_list=[int(last_element)]
+            current_list = []
+            possible_list = self.generate_list_fibo_for_each_last_3(remain_except_last_element, last_element, current_list, possible_list, num, count_move=0)
+
+
+            if possible_list: # If possible_list is not None or list_fibo_last_3 is not empty
+                fibonaci_list = possible_list[0] 
+                return fibonaci_list[::-1]
         return []
-
-    list_last_3 = [num[-i:] for i in range(1,len(num)-1)]
-    for last_3 in list_last_3:
-        remain_except_last_3 = num[0:-len(last_3)]
-        if len(remain_except_last_3) >=2:
-            list_fibo_last_3 =  generate_list_fibo_for_each_last_3(remain_except_last_3, last_3, current_list=[], possible_list = [])
-            if list_fibo_last_3: # If list_fibo_last_3 is not None or list_fibo_last_3 is not empty
-                fibo_last_3 = list_fibo_last_3[0] 
-                fibo_last_3.reverse()
-                fibo_last_3.append(int(last_3))
-                return fibo_last_3
-    return []
 
 
 
@@ -97,75 +135,12 @@ def find_fibonacci(num):
 
 
 def main():
-    num = "1101111"
-    print(find_fibonacci(num))
+    num = "0000"
+    x = Solution()
+    print(x.splitIntoFibonacci(num))
 
 
 if __name__ == "__main__":
     main()
 
 
-
-# class Solution:
-#     def splitIntoFibonacci(self, num: str) -> List[int]:
-#         def backtrack(sequence, index, currentNum, sumOfLastTwo):
-#             if index == len(num):
-#                 return len(sequence) >= 3
-
-#             for i in range(index, len(num)):
-#                 # Check for leading zeros in currentNum
-#                 if num[index] == '0' and i > index:
-#                     break
-
-#                 newNum = int(num[index:i+1])
-
-#                 # Check if currentNum is greater than the sum of last two numbers
-#                 if len(sequence) >= 2 and newNum > sumOfLastTwo:
-#                     break
-
-#                 if len(sequence) < 2 or newNum == sumOfLastTwo:
-#                     sequence.append(newNum)
-#                     if backtrack(sequence, i+1, newNum, currentNum + newNum):
-#                         return sequence
-
-#                     sequence.pop()
-
-#             return []
-#         return backtrack([], 0, 0, 0)    
-    
-
-
-
-
-# DFS implementation
-# class Solution:
-#     def splitIntoFibonacci(self, num: str) -> List[int]:
-#         def is_fibonacci_like(sequence):
-#             for i in range(2, len(sequence)):
-#                 if sequence[i-2] + sequence[i-1] != sequence[i]:
-#                     return False
-#             return True
-
-#         def dfs(index, sequence):
-#             if index == len(num):
-#                 if len(sequence) >= 3 and is_fibonacci_like(sequence):
-#                     return sequence
-#                 else:
-#                     return []
-
-#             for i in range(index+1, len(num)+1):
-#                 if num[index] == '0' and i > index+1:  # Skip numbers with extra leading zeroes
-#                     break
-                
-#                 current_num = int(num[index:i])
-#                 if current_num > 2**31 - 1:  # Check if the number exceeds the limit
-#                     break
-                    
-#                 if len(sequence) < 2 or sequence[-2] + sequence[-1] == current_num:
-#                     result = dfs(i, sequence + [current_num])
-#                     if result:
-#                         return result
-            
-#             return []
-
-#         return dfs(0, [])
