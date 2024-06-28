@@ -20,8 +20,11 @@ II. Analyze solution
 This problem belong to the template "subproblem"
 
 Follow general steps.
-From each last elment in the string, try to find out the fibonaci list by recursive looking for the 2 previous numbers in the remain string
+From each last elment in the string, try to find out the fibonaci list by recursive looking for the 2 previous numbers in the remain string. 
 
+Remember to do back tracking because we work with list. Also remember to add the clone of the list to possible_list, not the list it self by either :
+- possible_list.append(current_list[:])
+- clone_current_list = copy.deepcopy(current_list), then possible_list.append(clone_current_list)
 
 1. Define base case
 The base case will end the recursive when it see that "".join(current_list) = original string
