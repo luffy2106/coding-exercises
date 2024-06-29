@@ -39,6 +39,11 @@ The base case will end the recursive when it see that "".join(current_list) = or
 - count_move: Take into consideration when the sliding window of 3 elements move, at the beginning it behave differently
 - remain_except_element_3 the remain of the current string after we exclude the element 3
 - element 3 : the third element of the sliding window such as : element_3 = element_1  + element_2. When the sliding window move, element 2 become element 3 of the recursion function
+
+Note :
+When you do backtracking and recursion, note down what you need to track during the recursion, it's the most important thing. 
+It's gonna save you tons of time to debug and modify the code 
+
 """
 import copy
 from typing import List
