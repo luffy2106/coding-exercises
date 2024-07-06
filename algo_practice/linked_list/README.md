@@ -16,11 +16,12 @@ Array:
 - Access: Random
 
 ### Types of linked list
-- Singly Linked List
-- Doubly Linked List
-- Circular Linked List
-- Circular Doubly Linked List
-- Header Linked List
+- Singly-Linked List consists of nodes, starting from head node to NULL, where each node contains a data field and a next pointer.
+- Doubly-Linked List consists of nodes, where each node contains a data field, a next pointer and a prev pointer.
+- Circular Linked List is similar to a singly-linked list except that the last node instead of connecting to NULL connects to the first node, creating a ring.
+- Circular Doubly-Linked List is a mixture of the circular and doubly-linked list which has two pointers prev and next, and the last node connects to the first node.
+- Multi-Linked List consists of nodes, where each node contains a data field and two or more pointers. A doubly-linked list is a special case of the multi-linked list, which has two pointers that are the exact inverse of each other. These lists are typically used to implement different sorting of the nodes. For example, given student names and their marks, one set of pointers will sort by name and the other set by marks.
+
 
 ### Setup of linked list
 The setup of the linked list alway has 2 main elements:
@@ -50,6 +51,11 @@ class LinkedList:
 - Write a function to delete a Linked List
 - Write a function to get N_th node in a Linked List
 - N_th node from the end of a Linked List
+
+
+### Implementation steps
+
+https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/
 
 ### Practice exercices need to focuse
 ```
