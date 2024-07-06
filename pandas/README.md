@@ -1,12 +1,9 @@
-### This respo was mainly taken from HUYENCHIP with some update, the original respo :  
+# Pandas
+This respo was mainly taken from HUYENCHIP with some update, the original respo :  
+```
 https://github.com/chiphuyen/just-pandas-things  
-
-### Thanks HUYENCHIP for sharing
-
-
-# just-pandas-things
-This repo contains a few peculiar things I've learned about pandas that have made my life easier and my code faster. This post isn't a friendly tutorial for beginners, but a friendly introduction to pandas weirdness.
-
+```
+Thanks HUYENCHIP for sharing
 
 ## What's in this repo?
 
