@@ -1,0 +1,27 @@
+{
+    "name": "John",
+    "age": 30,
+    "children": [
+        {
+            "name": "Anna",
+            "age": 10,
+            "grades": {
+                "math": "A",
+                "science": "B+"
+            }
+        },
+        {
+            "name": "Ben",
+            "age": 8,
+            "grades": {
+                "math": "A-",
+                "science": "A"
+            }
+        }
+    ],
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "zip": "12345"
+    }
+}
