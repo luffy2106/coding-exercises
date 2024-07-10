@@ -9,33 +9,30 @@ from queue import Queue
 class Solution:
     def build_graph(self, flights, graph):
         for flight in flights:
-            graph[flight[0]].append(flight[1])
+            graph[flight[0]].append((flight[1], flight[2]))
         return graph
 
-
-    def find_min_cost_path(self, path,src,dst, route):
-        if src == dst:
-            return
 
 
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
         MAX = pow(100, 2)
         graph = [[] for i in range(MAX)]
         visited = [False] * MAX
+        dist = [0] * MAX
         path = [-1] * MAX
         queue_k = Queue()
-        queue_k.put(src)
+        distance = min_cost = 0
+        queue_k.put((src,distance))
         visited[src] = True
+        dist[src] = 0
         while not queue_k.empty():
-            current = queue_k.get()
-            if current == dst:
-                break
-            for neighbor in graph[current]:
-                if visited[neighbor] == False:
-                    queue_k.put(neighbor)
-                    path[neighbor] = current
-        min_cost = self.find_min_cost_path(path,src, dst)
-        return min_cost
+            (current_node, distance) = queue_k.get()
+            for neighbor in graph[current_node]:
+                (node_neighbor,price) = neighbor
+                if price + distance < dist[node_neighbor]:
+                    dist[node_neighbor] = price + distance
+                    queue_k.put((node_neighbor,dist[node_neighbor]))
+        return dist[dst]
         
 
 
