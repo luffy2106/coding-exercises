@@ -44,7 +44,36 @@ if __name__ == '__main__':
 
 #### 5. Demo
 - Binary Search : Take a look at demo/BinarySearch.py
-- 
+
+
+#### 6. Important note:
+- When we use left <= right, we need to update the middle like
+```
+def binary_search(nums, target):
+    left, right = 0, len(nums) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+```
+- When we use left < right, we need to update the middle like
+```
+def lower_bound(nums, target):
+    left, right = 0, len(nums)
+    while left < right:
+        mid = (left + right) // 2
+        if nums[mid] < target:
+            left = mid + 1
+        else:
+            right = mid
+    return left
+```
+
 
 
 
