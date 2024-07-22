@@ -15,7 +15,7 @@ Using encapsulation also hides the data. In this example, the data of the sectio
 
 
 """
-There are 3 types of membeers
+There are 3 types of members
 - public 
 - protected
 - private
@@ -69,7 +69,7 @@ print("Accessing protected member of obj2: ", obj2._a)
 
 
 """
-Private members are similar to protected members, the difference is that the class members declared private should neither be accessed outside the class nor by any base class. 
+Private members are similar to protected members, the difference is that the class members declared private should neither be accessed outside the class nor by any inherited class. 
 In Python, there is no existence of Private instance variables that cannot be accessed except inside a class.
 
 However, to define a private member prefix the member name with double underscore “__”.
