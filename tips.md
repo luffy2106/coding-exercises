@@ -4,3 +4,19 @@
 4. write clean code.
 5. Pay attention to the logic of each line while you write the code. it will save a lot of time for debugging.
 6. Be less dependent to the debug mode, you can not use it in the real test. 
+7. If you are applied for DS/ML engineer position, you need to focus on these patterns(this is the most popular one for this role)
+- Arrays
+- String
+- Dictionaries
+- Dynamic Programming
+- Recursion
+- DFS 
+- BFS
+- Sliding window +two pointer
+- Binary Search (pay attention to the edge left and right, check git note)
+8. Master 4 patterns could help you solve 80% of leetcode problems
+- DFS 
+- BFS
+- Sliding window +two pointer
+- Binary Search (pay attention to the edge left and right, check git note)
+
