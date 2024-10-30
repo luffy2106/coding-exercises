@@ -288,3 +288,28 @@ my_object._private_method()  # Calling a "private" method (not recommended)
 #### 8. gabarge collector in python exist ?
 
 Yes, Python does have a garbage collector. The garbage collector in Python is responsible for automatically reclaiming memory that is no longer in use, freeing it up for other purposes. The garbage collector in Python operates transparently in the background, and in most cases, you don't need to explicitly manage memory deallocation as it dones automatically by Python.
+
+
+#### 9. What is the difference between List and Tuple ?
+
+1. Mutability:
+- List: Mutable (you can change, add, or remove elements after creating a list).
+- Tuple: Immutable (once a tuple is created, you cannot change, add, or remove elements).
+
+2. Performance:
+- List: Slightly slower for certain operations due to mutability.
+- Tuple: Faster, especially for access and iteration, due to its fixed size and immutability.
+
+3. Use cases
+- List: When you need a collection that can change over time (like appending, removing, or updating items).
+- Tuple: When you need a fixed collection of items, often for fixed data structures or as dictionary keys (since they are hashable, unlike lists).
+
+4. Key in dictionary
+- List : you cannot use a list as a key in a dictionary in Python. This is because lists are mutable
+- Tuple : you can use a tuple as a dictionary key since tuples are immutable and hashable, as long as the tuple itself only contains immutable elements
+Ex :
+my_dict = { (1, 2): "value" }
+my_dict = { [1, 2]: "value" }  # Raises a TypeError
+
+
+Note : Both lists and tuples allow duplicate values in Python. You can have multiple occurrences of the same element in both
