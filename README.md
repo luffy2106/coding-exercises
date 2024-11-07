@@ -260,6 +260,10 @@ def large_generator():
 
 gen = large_generator()
 
+# Loop through the generator using a for loop
+for num in gen:
+    print(num)
+
 # Memory usage comparison
 print("Size of the list in memory:", sys.getsizeof(large_list), "bytes") # Size of the list in memory: 8697456 bytes
 print("Size of the generator in memory:", sys.getsizeof(gen), "bytes")  # Size of the generator in memory: 112 bytes
@@ -268,7 +272,7 @@ As you can see:
 - The list holds all 1,000,000 integers in memory simultaneously, so sys.getsizeof(large_list) will show a significant number (e.g., tens of megabytes).
 - The generator, however, holds only the current state of the iteration. This means sys.getsizeof(gen) will be minimal (typically less than 200 bytes), regardless of how many elements it can produce.
 
-So in this case, we can loop from 1 to 1000001 without using too much memory. This technique is really useful when you work with a large dataset.
+So in this case, we can loop from 1 to 1000001 without storing all elements in the list in the memory. This technique is really useful when you work with a large dataset.
 
 #### 6. The order of code block in python 
 The order of code alway from top to bottom in python file, even in the main function. In the example below, the code order will be : blockA->blockB->blockC
