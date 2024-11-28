@@ -11,9 +11,7 @@ from typing import List
 import random
 def calculate_centroid(graph : List, k : int, n : int):
     # graph = [(x1,y1,... ), (x2,y2,...) ...]
-
     list_centroid = []
-    
     for x in range(k):
         centroid_x = []
         for i in range(n): 
