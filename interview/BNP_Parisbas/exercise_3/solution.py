@@ -21,8 +21,9 @@ output = 3 sec
 
 """
 
-import heapq
 
+from copy import deepcopy
+from collections import defaultdict
 
 class PQEntry:
     def __init__(self,value):
@@ -32,53 +33,47 @@ class PQEntry:
 
 
 def getMinimumTime(processSize, capacity):
-    """
-    Generate by ChatGPT(wrong)
-    """
+    processSize.sort()
+    sorted_capacity_with_indices = sorted(enumerate(capacity), key=lambda x : x[1])
+    # print(sorted_capacity_with_indices)
+    sorted_indices_capacity = [element[0] for element in sorted_capacity_with_indices]
+    sorted_capacity = [element[1] for element in sorted_capacity_with_indices]
+    # print(sorted_indices_capacity)
+
+
+    sorted_indices_capacity_start = deepcopy(sorted_indices_capacity)
+    sorted_capacity_start = deepcopy(sorted_capacity)
+    dict_task = defaultdict(list)
     
-    # Sort processes in descending order (largest first)
-    processSize.sort(reverse=True)
-
-    # Create a min-heap for processor availability
-    processor_heap = [(0, c) for c in capacity]  # (time_available, capacity)
-    heapq.heapify(processor_heap)
-
-    # Process each process
-    for process in processSize:
-        # Temporarily hold popped processors to find a suitable one
-        temp = []
-        assigned = False
-
-        while processor_heap:
-            time_available, proc_capacity = heapq.heappop(processor_heap)
-            if proc_capacity >= process:
-                # Assign the process to this processor
-                new_time_available = time_available + 1
-                heapq.heappush(processor_heap, (new_time_available, proc_capacity))
-                assigned = True
-                break
-            else:
-                temp.append((time_available, proc_capacity))
-
-        # Push back all temporarily held processors
-        for item in temp:
-            heapq.heappush(processor_heap, item)
-
-        # If no processor could handle this process
-        if not assigned:
+    # print(processSize)
+    # print(sorted_capacity)
+    # We will use stack for the next step
+    while len(processSize) > 0:
+        current_process = processSize.pop()
+        capacity =  sorted_capacity_start.pop()
+        if capacity < current_process:
             return -1
+        current_index_capacity = sorted_indices_capacity_start.pop()
+        if not sorted_indices_capacity_start:
+            sorted_indices_capacity_start = deepcopy(sorted_indices_capacity)
+            sorted_capacity_start = deepcopy(sorted_capacity)
+        dict_task[current_index_capacity].append(current_process)
 
-    # Calculate the total time taken as the maximum availability time
-    total_time = max(time for time, _ in processor_heap)
+    
+
+    # Choose the longest value in the dict_task, it will be the represent for the total time 
+    max_length = max(len(value) for value in dict_task.values())
+    interval = max_length - 1
+    total_time = max_length + interval
     return total_time
 
 
 
 def main():
-    processSize = [1,2,3,4,6]
+    processSize = [2,5,8]
     m = 3
-    capacity = [4,7,4]
-    print(getMinimumTime(processSize, capacity))
+    capacity = [6,7,4]
+    print("The minimum time to handle all process is : {}".format(getMinimumTime(processSize, capacity)))
 
 if __name__ == "__main__":
     main()
