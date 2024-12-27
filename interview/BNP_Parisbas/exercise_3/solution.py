@@ -19,6 +19,23 @@ capacity = [4,7,4]
 output = 3 sec
 
 
+
+giải thuật:
+-sort 2 list từ thap den cao, coi chung nhu 2 stacks 
+-loop tưng đợt xử lý
+-ở mỗi loop, tìm task lớn nhất cho mỗi processor mà nó có thể xử lý đc
+
+Ex:
+đợt thứ 1:
+giao task 6 cho 7,
+task 4 cho 4,
+task 3 cho 4
+xong đợt 1
+
+đợt 2:
+giao task 2 cho 7, 
+task 1 cho 4 
+
 """
 
 
