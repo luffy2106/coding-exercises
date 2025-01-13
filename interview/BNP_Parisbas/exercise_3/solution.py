@@ -50,6 +50,9 @@ class PQEntry:
 
 
 def getMinimumTime(processSize, capacity):
+    """
+    This solution is made by Kien
+    """
     processSize.sort()
     sorted_capacity_with_indices = sorted(enumerate(capacity), key=lambda x : x[1])
     # print(sorted_capacity_with_indices)
@@ -85,11 +88,54 @@ def getMinimumTime(processSize, capacity):
     return total_time
 
 
+# def getMinimumTime(processSizes, numProcessors, capacity):
+#     """
+#     This solution is made by ClaudeAI and it's wro,ng
+#     """
+
+#     # If we don't have any processes, return 0
+#     if not processSizes:
+#         return 0
+        
+#     # Sort processes in descending order to try largest first
+#     processSizes.sort(reverse=True)
+    
+#     # Check if any process is larger than max capacity
+#     if processSizes[0] > max(capacity):
+#         return -1
+        
+#     # Initialize completion times for each processor
+#     processor_times = [0] * numProcessors
+    
+#     # Try to assign each process to the processor that will finish earliest
+#     for size in processSizes:
+#         # Find processor with minimum completion time that can handle this size
+#         min_time = float('inf')
+#         best_processor = -1
+        
+#         for i in range(numProcessors):
+#             if capacity[i] >= size:  # Check if processor can handle this size
+#                 if processor_times[i] < min_time:
+#                     min_time = processor_times[i]
+#                     best_processor = i
+        
+#         if best_processor == -1:  # No processor can handle this size
+#             return -1
+            
+#         # Assign process to the chosen processor
+#         # Add 1 second pause if this isn't the first process on this processor
+#         if processor_times[best_processor] > 0:
+#             processor_times[best_processor] += 1
+#         processor_times[best_processor] += size
+    
+#     # Return the maximum completion time among all processors
+#     return max(processor_times)
+
 
 def main():
-    processSize = [2,5,8]
+    processSize = [2,5,3]
     m = 3
-    capacity = [6,7,4]
+    capacity = [6,2,4]
     print("The minimum time to handle all process is : {}".format(getMinimumTime(processSize, capacity)))
 
 if __name__ == "__main__":
